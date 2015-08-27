@@ -151,12 +151,104 @@
 
         ContentHome.validateRssLink = function () {
           console.log(ContentHome.contentType);
+          var req = null;
           switch (ContentHome.contentType) {
             case CONTENT_TYPE.SINGLE_VIDEO :
-
+              var videoID = Utils.extractSingleVideoId(ContentHome.rssLink);
+              if (videoID) {
+                req = {
+                  method: 'GET',
+                  url: "https://api.vimeo.com/videos/"+ videoID,
+                  headers: {
+                    'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                  }
+                };
+                $http(req)
+                  .success(function (response) {
+                    console.log(response);
+                    if (response.created_time) {
+                      ContentHome.validLinkSuccess = true;
+                      $timeout(function () {
+                        ContentHome.validLinkSuccess = false;
+                      }, 3000);
+                      ContentHome.validLinkFailure = false;
+                      ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                      ContentHome.data.content.type = ContentHome.contentType;
+                      ContentHome.data.content.videoID = videoID;
+                      ContentHome.data.content.channelID = null;
+                    }
+                    else {
+                      ContentHome.validLinkFailure = true;
+                      $timeout(function () {
+                        ContentHome.validLinkFailure = false;
+                      }, 3000);
+                      ContentHome.validLinkSuccess = false;
+                    }
+                  })
+                  .error(function (response) {
+                    ContentHome.validLinkFailure = true;
+                    $timeout(function () {
+                      ContentHome.validLinkFailure = false;
+                    }, 3000);
+                    ContentHome.validLinkSuccess = false;
+                  });
+              }
+              else {
+                ContentHome.validLinkFailure = true;
+                $timeout(function () {
+                  ContentHome.validLinkFailure = false;
+                }, 3000);
+                ContentHome.validLinkSuccess = false;
+              }
               break;
             case CONTENT_TYPE.CHANNEL_FEED :
-
+              var feedId = Utils.extractChannelId(ContentHome.rssLink);
+              console.log(feedId);
+              if (feedId) {
+                req = {
+                  method: 'GET',
+                  url: "https://api.vimeo.com/channels/"+feedId+"/videos",
+                  headers: {
+                    'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                  }
+                };
+                $http(req)
+                  .success(function (response) {
+                    console.log(response);
+                    if (response.data && response.data.length) {
+                      ContentHome.validLinkSuccess = true;
+                      $timeout(function () {
+                        ContentHome.validLinkSuccess = false;
+                      }, 3000);
+                      ContentHome.validLinkFailure = false;
+                      ContentHome.data.content.rssUrl = ContentHome.rssLink;
+                      ContentHome.data.content.type = ContentHome.contentType;
+                      ContentHome.data.content.channelID = feedId;
+                      ContentHome.data.content.videoID = null;
+                    }
+                    else {
+                      ContentHome.validLinkFailure = true;
+                      $timeout(function () {
+                        ContentHome.validLinkFailure = false;
+                      }, 3000);
+                      ContentHome.validLinkSuccess = false;
+                    }
+                  })
+                  .error(function () {
+                    ContentHome.validLinkFailure = true;
+                    $timeout(function () {
+                      ContentHome.validLinkFailure = false;
+                    }, 3000);
+                    ContentHome.validLinkSuccess = false;
+                  });
+              }
+              else {
+                ContentHome.validLinkFailure = true;
+                $timeout(function () {
+                  ContentHome.validLinkFailure = false;
+                }, 3000);
+                ContentHome.validLinkSuccess = false;
+              }
               break;
           }
         };
