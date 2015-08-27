@@ -125,10 +125,18 @@
     .factory("Utils", [function () {
       return {
         extractSingleVideoId: function (url) {
-
+          var match = url.match(/(\.com)\/(.+)/);
+          if (match)
+            return match[2];
+          else
+            return null;
         },
-        extractChannelId : function(url){
-
+        extractChannelId: function (url) {
+          var match = url.match(/(channels)\/(.+)/);
+          if (match)
+            return match[2];
+          else
+            return null;
         }
       }
     }]);
