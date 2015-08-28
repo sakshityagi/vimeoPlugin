@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular) {
-  angular.module('viemoPluginDesign')
+  angular.module('vimeoPluginDesign')
     .constant('TAG_NAMES', {
       VIMEO_INFO: 'VimeoInfo'
     })
