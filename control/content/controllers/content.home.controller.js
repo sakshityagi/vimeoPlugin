@@ -207,7 +207,7 @@
               if (feedId) {
                 req = {
                   method: 'GET',
-                  url: "https://api.vimeo.com/channels/"+feedId+"/videos",
+                  url: "https://api.vimeo.com/channels/"+feedId+"/videos?per_page=2",
                   headers: {
                     'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
                   }
