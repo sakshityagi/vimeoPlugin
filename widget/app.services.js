@@ -138,12 +138,12 @@
         } else {
           var req = {
             method: 'GET',
-            url: "https://api.vimeo.com/videos/"+ videoId,
+            url: "https://api.vimeo.com/videos/" + videoId,
             headers: {
-              'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+              'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
             }
           };
-          $http.(req).then(function (response) {
+          $http(req).then(function (response) {
             // this callback will be called asynchronously
             // when the response is available
             deferred.resolve(response);
@@ -167,26 +167,26 @@
             message: STATUS_MESSAGES.UNDEFINED_CHANNEL_ID
           }));
         } else {
-          if (page){
+          if (page) {
             req = {
               method: 'GET',
-              url: "https://api.vimeo.com/channels/"+channelId+"/videos?page="+ page +"&per_page="+ countLimit ,
+              url: "https://api.vimeo.com/channels/" + channelId + "/videos?page=" + page + "&per_page=" + countLimit,
               headers: {
-                'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
               }
             };
           }
-          else{
+          else {
             req = {
               method: 'GET',
-              url: "https://api.vimeo.com/channels/"+channelId+"/videos?per_page="+ countLimit ,
+              url: "https://api.vimeo.com/channels/" + channelId + "/videos?per_page=" + countLimit,
               headers: {
-                'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
               }
             };
           }
         }
-        $http.(req).then(function (response) {
+        $http(req).then(function (response) {
           // this callback will be called asynchronously
           // when the response is available
           deferred.resolve(response);
