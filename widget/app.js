@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('vimeoPluginWidget', ['ngRoute'])
+  angular.module('vimeoPluginWidget', ['ngRoute','infinite-scroll'])
     .config(['$routeProvider', function ($routeProvider) {
       /**
        * Disable the pull down refresh
@@ -87,9 +87,24 @@
         }
       };
     }])
+    .directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
+      return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+          $rootScope.$broadcast("Carousel:LOADED");
+        }
+      };
+    }])
     .filter('returnVimeoUrl', ['$sce', function ($sce) {
-      return function (id) {
+      return function (uri) {
+        var id = uri.split("/").pop();
         return $sce.trustAsResourceUrl("//player.vimeo.com/video/" + id);
       }
-    }]);
+    }])
+  .filter('returnVideoUrl', [function () {
+    return function (uri) {
+      var videoId = uri.split("/").pop();
+      return "#/video/"+videoId;
+    }
+  }]);
 })(window.angular, window.buildfire);
