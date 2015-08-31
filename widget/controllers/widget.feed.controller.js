@@ -11,7 +11,7 @@
         var view = null;
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
-        WidgetFeed.nextPageToken = null;
+        WidgetFeed.nextPageToken = 1;
         var currentListLayout = null;
         var currentChannelId = $routeParams.channelID;
 
@@ -51,8 +51,6 @@
 
         var getFeedVideos = function (_channelId) {
           var success = function (result) {
-              console.log("**************************", result);
-              console.log(WidgetFeed.videos);
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
               if (WidgetFeed.videos.length < result.data.total) {
@@ -86,7 +84,7 @@
             if (!WidgetFeed.data.content.rssUrl) {
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
-              WidgetFeed.nextPageToken = null;
+              WidgetFeed.nextPageToken = 1;
             } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.channelID) {
               currentChannelId = WidgetFeed.data.content.channelID;
               getFeedVideos(WidgetFeed.data.content.channelID);
