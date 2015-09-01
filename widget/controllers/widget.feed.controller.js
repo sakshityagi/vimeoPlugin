@@ -12,6 +12,7 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = 1;
+        WidgetFeed.showSpinner = false;
         var currentListLayout = null;
         var currentChannelId = $routeParams.channelID;
 
@@ -50,7 +51,9 @@
         });
 
         var getFeedVideos = function (_channelId) {
+          WidgetFeed.showSpinner = true;
           var success = function (result) {
+              WidgetFeed.showSpinner = false;
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
               if (WidgetFeed.videos.length < result.data.total) {
@@ -58,7 +61,8 @@
               }
             }
             , error = function (err) {
-              console.error('Error In Fetching Single Video Details', err);
+              WidgetFeed.showSpinner = false;
+              console.log('Error In Fetching Single Video Details', err);
             };
           VimeoApi.getFeedVideos(_channelId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
         };

@@ -158,14 +158,15 @@
 
       var getFeedVideos = function (channelId, countLimit, page) {
         var deferred = $q.defer();
-        var req = null;
+        var req = {};
+        var url = "";
         if (!countLimit)
           countLimit = VIDEO_COUNT.LIMIT || 8;
         if (!channelId) {
-          deferred.reject(new Error({
+          deferred.reject({
             code: STATUS_CODE.UNDEFINED_CHANNEL_ID,
             message: STATUS_MESSAGES.UNDEFINED_CHANNEL_ID
-          }));
+          });
         } else {
           if (page) {
             req = {
@@ -185,16 +186,17 @@
               }
             };
           }
+          $http(req).then(function (response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            deferred.resolve(response);
+          }, function (error) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            deferred.reject(error);
+          });
         }
-        $http(req).then(function (response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          deferred.resolve(response);
-        }, function (error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          deferred.reject(error);
-        });
+
         return deferred.promise;
       };
       return {
