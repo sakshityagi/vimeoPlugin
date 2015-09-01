@@ -3,10 +3,6 @@
 (function (angular, buildfire) {
   angular.module('vimeoPluginWidget', ['ngRoute','infinite-scroll'])
     .config(['$routeProvider', function ($routeProvider) {
-      /**
-       * Disable the pull down refresh
-       */
-      buildfire.datastore.disableRefresh();
       $routeProvider
         .when('/', {
           resolve: {
