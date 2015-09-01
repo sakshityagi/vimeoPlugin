@@ -25,6 +25,7 @@
         ContentHome.validLinkSuccess = false;
         ContentHome.validLinkFailure = false;
         ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
+        ContentHome.failureMessage = "Error. Please check and try again";
 
         ContentHome.descriptionWYSIWYGOptions = {
           plugins: 'advlist autolink link image lists charmap print preview',
@@ -148,7 +149,6 @@
         }, saveDataWithDelay, true);
 
         // Function to validate vimeo rss feed link entered by user.
-
         ContentHome.validateRssLink = function () {
           console.log(ContentHome.contentType);
           var req = null;
@@ -165,12 +165,13 @@
                 };
                 $http(req)
                   .success(function (response) {
+                    ContentHome.failureMessage = "Error. Please check and try again";
                     console.log(response);
                     if (response.created_time) {
                       ContentHome.validLinkSuccess = true;
                       $timeout(function () {
                         ContentHome.validLinkSuccess = false;
-                      }, 3000);
+                      }, 5000);
                       ContentHome.validLinkFailure = false;
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
@@ -181,29 +182,33 @@
                       ContentHome.validLinkFailure = true;
                       $timeout(function () {
                         ContentHome.validLinkFailure = false;
-                      }, 3000);
+                      }, 5000);
                       ContentHome.validLinkSuccess = false;
                     }
                   })
                   .error(function (response) {
+                    ContentHome.failureMessage = "Error. Please check and try again";
                     ContentHome.validLinkFailure = true;
                     $timeout(function () {
                       ContentHome.validLinkFailure = false;
-                    }, 3000);
+                    }, 5000);
                     ContentHome.validLinkSuccess = false;
                   });
               }
               else {
+                if(Utils.extractChannelId(ContentHome.rssLink)){
+                  ContentHome.failureMessage = "Seems like you have entered feed url. Please choose correct option to validate url."
+                }
                 ContentHome.validLinkFailure = true;
                 $timeout(function () {
                   ContentHome.validLinkFailure = false;
-                }, 3000);
+                  ContentHome.failureMessage = "Error. Please check and try again";
+                }, 5000);
                 ContentHome.validLinkSuccess = false;
               }
               break;
             case CONTENT_TYPE.CHANNEL_FEED :
               var feedId = Utils.extractChannelId(ContentHome.rssLink);
-              console.log(feedId);
               if (feedId) {
                 req = {
                   method: 'GET',
@@ -214,12 +219,13 @@
                 };
                 $http(req)
                   .success(function (response) {
+                    ContentHome.failureMessage = "Error. Please check and try again";
                     console.log(response);
                     if (response.data && response.data.length) {
                       ContentHome.validLinkSuccess = true;
                       $timeout(function () {
                         ContentHome.validLinkSuccess = false;
-                      }, 3000);
+                      }, 5000);
                       ContentHome.validLinkFailure = false;
                       ContentHome.data.content.rssUrl = ContentHome.rssLink;
                       ContentHome.data.content.type = ContentHome.contentType;
@@ -230,23 +236,28 @@
                       ContentHome.validLinkFailure = true;
                       $timeout(function () {
                         ContentHome.validLinkFailure = false;
-                      }, 3000);
+                      }, 5000);
                       ContentHome.validLinkSuccess = false;
                     }
                   })
                   .error(function () {
+                    ContentHome.failureMessage = "Error. Please check and try again";
                     ContentHome.validLinkFailure = true;
                     $timeout(function () {
                       ContentHome.validLinkFailure = false;
-                    }, 3000);
+                    }, 5000);
                     ContentHome.validLinkSuccess = false;
                   });
               }
               else {
+                if(Utils.extractSingleVideoId(ContentHome.rssLink)){
+                  ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
+                }
                 ContentHome.validLinkFailure = true;
                 $timeout(function () {
                   ContentHome.validLinkFailure = false;
-                }, 3000);
+                  ContentHome.failureMessage = "Error. Please check and try again";
+                }, 5000);
                 ContentHome.validLinkSuccess = false;
               }
               break;

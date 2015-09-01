@@ -126,10 +126,14 @@
       return {
         extractSingleVideoId: function (url) {
           var match = url.match(/(\.com)\/(.+)/);
-          if (match)
-            return match[2];
-          else
+          var rgx = /\/.+\/?/g;
+
+          if (match && !rgx.test(match[2])) {
+            return match[2].split("/")[0];
+          } else {
             return null;
+          }
+
         },
         extractChannelId: function (url) {
           var match = url.match(/(channels)\/(.+)/);
