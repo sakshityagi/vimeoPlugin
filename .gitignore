@@ -11,7 +11,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
+test/coverage
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -28,3 +28,6 @@ node_modules
 
 #.idea folder
 .idea/*
+
+# Bower dependency directory
+test/assets/bower_components
