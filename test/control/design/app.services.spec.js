@@ -19,7 +19,7 @@ describe('Unit : vimeoPlugin design services', function () {
       Buildfire = {
         datastore: {}
       };
-      Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get','insert','update', 'save', 'delete']);
+      Buildfire.datastore = jasmine.createSpyObj('Buildfire.datastore', ['get', 'getById', 'insert', 'update', 'save', 'delete']);
     }));
 
     it('DataStore should exist and be an object', function () {
