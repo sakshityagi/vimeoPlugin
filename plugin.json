@@ -1,8 +1,8 @@
 {
-  "author":"[Your Name here]"
-,"pluginName":"[Your Plugin Name here]"
-,"pluginDescription":"[A short description of what your plugin does]"
-,"supportEmail":"[Your support Email]"
+  "author":"BuildFire"
+,"pluginName":"vimeoPlugin"
+,"pluginDescription":"Helps you to import Vimeo videos into your app"
+,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{
     "enabled":true
