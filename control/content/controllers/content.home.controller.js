@@ -87,10 +87,12 @@
                 ContentHome.contentType = ContentHome.data.content.type;
               if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
                 ContentHome.rssLink = ContentHome.data.content.rssUrl;
-              if (!ContentHome.data.content.carouselImages)
-                editor.loadItems([]);
-              else
-                editor.loadItems(ContentHome.data.content.carouselImages);
+              if (ContentHome.data.content) {
+                if (!ContentHome.data.content.carouselImages)
+                  editor.loadItems([]);
+                else
+                  editor.loadItems(ContentHome.data.content.carouselImages);
+              }
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
             }
@@ -158,9 +160,9 @@
               if (videoID) {
                 req = {
                   method: 'GET',
-                  url: "https://api.vimeo.com/videos/"+ videoID,
+                  url: "https://api.vimeo.com/videos/" + videoID,
                   headers: {
-                    'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                    'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
                   }
                 };
                 $http(req)
@@ -196,7 +198,7 @@
                   });
               }
               else {
-                if(Utils.extractChannelId(ContentHome.rssLink)){
+                if (Utils.extractChannelId(ContentHome.rssLink)) {
                   ContentHome.failureMessage = "Seems like you have entered feed url. Please choose correct option to validate url."
                 }
                 ContentHome.validLinkFailure = true;
@@ -212,9 +214,9 @@
               if (feedId) {
                 req = {
                   method: 'GET',
-                  url: "https://api.vimeo.com/channels/"+feedId+"/videos?per_page=2",
+                  url: "https://api.vimeo.com/channels/" + feedId + "/videos?per_page=2",
                   headers: {
-                    'Authorization': 'bearer '+ VIMEO_KEYS.ACCESS_TOKEN
+                    'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
                   }
                 };
                 $http(req)
@@ -250,7 +252,7 @@
                   });
               }
               else {
-                if(Utils.extractSingleVideoId(ContentHome.rssLink)){
+                if (Utils.extractSingleVideoId(ContentHome.rssLink)) {
                   ContentHome.failureMessage = "Seems like you have entered single video url. Please choose correct option to validate url."
                 }
                 ContentHome.validLinkFailure = true;

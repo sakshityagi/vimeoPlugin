@@ -25,8 +25,9 @@
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-              currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (!currentChannelId) {
+              if (WidgetFeed.data.design)
+                currentListLayout = WidgetFeed.data.design.itemListLayout;
+              if (WidgetFeed.data.content && !currentChannelId) {
                 currentChannelId = WidgetFeed.data.content.channelID;
               }
             }
@@ -53,6 +54,7 @@
         var getFeedVideos = function (_channelId) {
           WidgetFeed.showSpinner = true;
           var success = function (result) {
+              console.log("???????????????????????????????", result);
               WidgetFeed.showSpinner = false;
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
@@ -73,17 +75,18 @@
             if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
-
-            if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
-              view._destroySlider();
-              view = null;
-            }
-            else {
-              if (view) {
-                view.loadItems(WidgetFeed.data.content.carouselImages);
+            if (WidgetFeed.data.design && WidgetFeed.data.content) {
+              if ((currentListLayout != WidgetFeed.data.design.itemListLayout) && view && WidgetFeed.data.content.carouselImages) {
+                view._destroySlider();
+                view = null;
               }
+              else {
+                if (view) {
+                  view.loadItems(WidgetFeed.data.content.carouselImages);
+                }
+              }
+              currentListLayout = WidgetFeed.data.design.itemListLayout;
             }
-            currentListLayout = WidgetFeed.data.design.itemListLayout;
 
             if (!WidgetFeed.data.content.rssUrl) {
               WidgetFeed.videos = [];
@@ -104,6 +107,7 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
+          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
           getFeedVideos(currentChannelId);

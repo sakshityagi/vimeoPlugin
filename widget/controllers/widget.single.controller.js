@@ -17,11 +17,13 @@
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
-            if (WidgetSingle.data && WidgetSingle.data.design && !WidgetSingle.data.design.itemListLayout) {
-              WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+            if (WidgetSingle.data && WidgetSingle.data.design && WidgetSingle.data.content) {
+              if (!WidgetSingle.data.design.itemListLayout) {
+                WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+              }
+              currentItemListLayout = WidgetSingle.data.design.itemListLayout;
+              currentChannelID = WidgetSingle.data.content.channelID;
             }
-            currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-            currentChannelID = WidgetSingle.data.content.channelID;
           }
           , error = function (err) {
             console.error('Error while getting data', err);
@@ -62,7 +64,7 @@
 
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (WidgetSingle.data.content.channelID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.channelID !== currentChannelID))) {
+          } else if (WidgetSingle.data.design && WidgetSingle.data.content.channelID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.channelID !== currentChannelID))) {
             currentChannelID = WidgetSingle.data.content.channelID;
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
             Location.goTo("#/feed/" + WidgetSingle.data.content.channelID);
