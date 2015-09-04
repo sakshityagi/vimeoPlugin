@@ -24,6 +24,7 @@
     })
     .constant('CONTENT_TYPE', {
       CHANNEL_FEED: 'Channel Feed',
+      USER_FEED: 'User Feed',
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('VIMEO_KEYS', {

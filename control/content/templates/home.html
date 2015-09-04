@@ -10,6 +10,12 @@
       <label for="channel">Channel Feed</label>
     </div>
     <div class="radio radio-primary radio-inline">
+      <input id="user" type="radio" ng-model="ContentHome.contentType"
+             ng-value="ContentHome.CONTENT_TYPE.USER_FEED"
+             name="contenttype">
+      <label for="user">User Feed</label>
+    </div>
+    <div class="radio radio-primary radio-inline">
       <input id="video" type="radio" ng-model="ContentHome.contentType"
              ng-value="ContentHome.CONTENT_TYPE.SINGLE_VIDEO"
              name="contenttype">

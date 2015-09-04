@@ -14,8 +14,8 @@
                       Location.goTo("#/video/" + result.data.content.videoID);
                       deferred.resolve();
                     }
-                    else if (result.data.content.type && result.data.content.type === CONTENT_TYPE.CHANNEL_FEED && result.data.content.channelID) {
-                      Location.goTo("#/feed/" + result.data.content.channelID);
+                    else if (result.data.content.type && ((result.data.content.type === CONTENT_TYPE.CHANNEL_FEED) || (result.data.content.type === CONTENT_TYPE.USER_FEED)) && result.data.content.feedID) {
+                      Location.goTo("#/feed/" + result.data.content.feedID);
                       deferred.resolve();
                     }
                     else {
@@ -35,7 +35,7 @@
             }]
           }
         })
-        .when('/feed/:channelId', {
+        .when('/feed/:feedId', {
           templateUrl: 'templates/home.html',
           controllerAs: 'WidgetFeed',
           controller: 'WidgetFeedCtrl'

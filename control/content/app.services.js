@@ -124,7 +124,7 @@
     }])
     .factory("Utils", [function () {
       return {
-        extractSingleVideoId: function (url) {
+        extractSingleVideoIdOrUserID: function (url) {
           var match = url.match(/(\.com)\/(.+)/);
           var rgx = /\/.+\/?/g;
 
@@ -135,7 +135,7 @@
           }
 
         },
-        extractChannelId: function (url) {
+        extractFeedID: function (url) {
           var match = url.match(/(channels)\/(.+)/);
           if (match)
             return match[2];

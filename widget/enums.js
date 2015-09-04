@@ -16,7 +16,7 @@
       NOT_ITEM_ARRAY: 'NOT_ITEM_ARRAY',
       UNDEFINED_EVENT: 'UNDEFINED_EVENT',
       UNDEFINED_VIDEO_ID: 'UNDEFINED_VIDEO_ID',
-      UNDEFINED_CHANNEL_ID: 'UNDEFINED_CHANNEL_ID'
+      UNDEFINED_FEED_ID: 'UNDEFINED_FEED_ID'
     })
     .constant('STATUS_MESSAGES', {
       UNDEFINED_DATA: 'Undefined data provided',
@@ -26,10 +26,11 @@
       ITEM_ARRAY_FOUND: 'Array of Items provided',
       UNDEFINED_EVENT: 'Undefined event received',
       UNDEFINED_VIDEO_ID: 'Undefined video id provided',
-      UNDEFINED_CHANNEL_ID: 'Undefined channel id provided'
+      UNDEFINED_FEED_ID: 'Undefined feed id provided'
     })
     .constant('CONTENT_TYPE', {
       CHANNEL_FEED: 'Channel Feed',
+      USER_FEED: 'User Feed',
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('VIMEO_KEYS', {

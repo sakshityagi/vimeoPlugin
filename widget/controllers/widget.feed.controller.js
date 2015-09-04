@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('vimeoPluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS',
-      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS) {
+    .controller('WidgetFeedCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE',
+      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE) {
         var WidgetFeed = this;
 
         WidgetFeed.data = null;
@@ -14,7 +14,8 @@
         WidgetFeed.nextPageToken = 1;
         WidgetFeed.showSpinner = false;
         var currentListLayout = null;
-        var currentChannelId = $routeParams.channelID;
+        var currentFeedId = $routeParams.feedId;
+        var feedType = "Channel";
 
         /*
          * Fetch user's data from datastore
@@ -25,9 +26,10 @@
               if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-              currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (!currentChannelId) {
-                currentChannelId = WidgetFeed.data.content.channelID;
+              if (WidgetFeed.data.design)
+                currentListLayout = WidgetFeed.data.design.itemListLayout;
+              if (WidgetFeed.data.content && !currentFeedId) {
+                currentFeedId = WidgetFeed.data.content.feedID;
               }
             }
             , error = function (err) {
@@ -50,9 +52,10 @@
           }
         });
 
-        var getFeedVideos = function (_channelId) {
+        var getFeedVideos = function (_feedId) {
           WidgetFeed.showSpinner = true;
           var success = function (result) {
+              console.log("???????????????????????????????", result);
               WidgetFeed.showSpinner = false;
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
@@ -64,7 +67,11 @@
               WidgetFeed.showSpinner = false;
               console.log('Error In Fetching Single Video Details', err);
             };
-          VimeoApi.getFeedVideos(_channelId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
+          if (WidgetFeed.data.content && WidgetFeed.data.content.type === CONTENT_TYPE.USER_FEED)
+            feedType = "User";
+          else
+            feedType = "Channel";
+          VimeoApi.getFeedVideos(feedType, _feedId, VIDEO_COUNT.LIMIT, WidgetFeed.nextPageToken).then(success, error);
         };
 
         var onUpdateCallback = function (event) {
@@ -73,30 +80,31 @@
             if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
-
-            if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
-              view._destroySlider();
-              view = null;
-            }
-            else {
-              if (view) {
-                view.loadItems(WidgetFeed.data.content.carouselImages);
+            if (WidgetFeed.data.design && WidgetFeed.data.content) {
+              if ((currentListLayout != WidgetFeed.data.design.itemListLayout) && view && WidgetFeed.data.content.carouselImages) {
+                view._destroySlider();
+                view = null;
               }
+              else {
+                if (view) {
+                  view.loadItems(WidgetFeed.data.content.carouselImages);
+                }
+              }
+              currentListLayout = WidgetFeed.data.design.itemListLayout;
             }
-            currentListLayout = WidgetFeed.data.design.itemListLayout;
 
             if (!WidgetFeed.data.content.rssUrl) {
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = 1;
-            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.channelID) {
-              currentChannelId = WidgetFeed.data.content.channelID;
-              getFeedVideos(WidgetFeed.data.content.channelID);
+            } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.feedID) {
+              currentFeedId = WidgetFeed.data.content.feedID;
+              getFeedVideos(WidgetFeed.data.content.feedID);
             }
 
-            if (WidgetFeed.data.content && WidgetFeed.data.content.channelID && (WidgetFeed.data.content.channelID !== currentChannelId)) {
-              currentChannelId = WidgetFeed.data.content.channelID;
-              Location.goTo("#/feed/" + WidgetFeed.data.content.channelID);
+            if (WidgetFeed.data.content && WidgetFeed.data.content.feedID && (WidgetFeed.data.content.feedID !== currentFeedId)) {
+              currentFeedId = WidgetFeed.data.content.feedID;
+              Location.goTo("#/feed/" + WidgetFeed.data.content.feedID);
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
@@ -104,9 +112,10 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
+          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          getFeedVideos(currentChannelId);
+          getFeedVideos(currentFeedId);
         };
 
         WidgetFeed.safeHtml = function (html) {
