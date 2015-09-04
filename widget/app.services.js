@@ -156,36 +156,41 @@
         return deferred.promise;
       };
 
-      var getFeedVideos = function (channelId, countLimit, page) {
+      var getFeedVideos = function (type, feedId, countLimit, page) {
         var deferred = $q.defer();
         var req = {};
         var url = "";
         if (!countLimit)
           countLimit = VIDEO_COUNT.LIMIT || 8;
-        if (!channelId) {
+        if (!feedId) {
           deferred.reject({
-            code: STATUS_CODE.UNDEFINED_CHANNEL_ID,
-            message: STATUS_MESSAGES.UNDEFINED_CHANNEL_ID
+            code: STATUS_CODE.UNDEFINED_FEED_ID,
+            message: STATUS_MESSAGES.UNDEFINED_FEED_ID
           });
         } else {
-          if (page) {
-            req = {
-              method: 'GET',
-              url: "https://api.vimeo.com/channels/" + channelId + "/videos?page=" + page + "&per_page=" + countLimit,
-              headers: {
-                'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
-              }
-            };
+          if (type == "User") {
+            if (page) {
+              url = "https://api.vimeo.com/users/" + feedId + "/videos?page=" + page + "&per_page=" + countLimit;
+            }
+            else {
+              url = "https://api.vimeo.com/users/" + feedId + "/videos?per_page=" + countLimit;
+            }
+          } else {
+            if (page) {
+              url = "https://api.vimeo.com/channels/" + feedId + "/videos?page=" + page + "&per_page=" + countLimit;
+            }
+            else {
+              url = "https://api.vimeo.com/channels/" + feedId + "/videos?per_page=" + countLimit;
+            }
           }
-          else {
-            req = {
-              method: 'GET',
-              url: "https://api.vimeo.com/channels/" + channelId + "/videos?per_page=" + countLimit,
-              headers: {
-                'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
-              }
-            };
-          }
+
+          req = {
+            method: 'GET',
+            url: url,
+            headers: {
+              'Authorization': 'bearer ' + VIMEO_KEYS.ACCESS_TOKEN
+            }
+          };
           $http(req).then(function (response) {
             // this callback will be called asynchronously
             // when the response is available

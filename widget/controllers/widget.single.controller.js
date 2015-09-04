@@ -3,7 +3,7 @@
 (function (angular) {
   angular.module('vimeoPluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'VimeoApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', function ($routeParams, $scope, VimeoApi, DataStore, TAG_NAMES, Location, LAYOUTS) {
-      var currentChannelID = null,
+      var currentFeedID = null,
         currentItemListLayout = null;
 
       var WidgetSingle = this;
@@ -22,7 +22,7 @@
                 WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-              currentChannelID = WidgetSingle.data.content.channelID;
+              currentFeedID = WidgetSingle.data.content.feedID;
             }
           }
           , error = function (err) {
@@ -57,17 +57,17 @@
           } else if (!WidgetSingle.video && WidgetSingle.data.content.videoID && !$routeParams.videoId) {
             $routeParams.videoId = WidgetSingle.data.content.videoID;
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (!WidgetSingle.video && WidgetSingle.data.content.channelID && !$routeParams.videoId) {
-            currentChannelID = WidgetSingle.data.content.channelID;
-            Location.goTo("#/feed/" + WidgetSingle.data.content.channelID);
+          } else if (!WidgetSingle.video && WidgetSingle.data.content.feedID && !$routeParams.videoId) {
+            currentFeedID = WidgetSingle.data.content.feedID;
+            Location.goTo("#/feed/" + WidgetSingle.data.content.feedID);
           }
 
           if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
             getSingleVideoDetails(WidgetSingle.data.content.videoID);
-          } else if (WidgetSingle.data.design && WidgetSingle.data.content.channelID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.channelID !== currentChannelID))) {
-            currentChannelID = WidgetSingle.data.content.channelID;
+          } else if (WidgetSingle.data.design && WidgetSingle.data.content.feedID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.feedID !== currentFeedID))) {
+            currentFeedID = WidgetSingle.data.content.feedID;
             currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-            Location.goTo("#/feed/" + WidgetSingle.data.content.channelID);
+            Location.goTo("#/feed/" + WidgetSingle.data.content.feedID);
           }
         }
       };
