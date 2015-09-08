@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('vimeoPluginWidget', ['ngRoute','infinite-scroll'])
+  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll'])
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider
         .when('/', {
@@ -97,10 +97,18 @@
         return $sce.trustAsResourceUrl("//player.vimeo.com/video/" + id);
       }
     }])
-  .filter('returnVideoUrl', [function () {
-    return function (uri) {
-      var videoId = uri.split("/").pop();
-      return "#/video/"+videoId;
-    }
-  }]);
+    .filter('returnVideoUrl', [function () {
+      return function (uri) {
+        var videoId = uri.split("/").pop();
+        return "#/video/" + videoId;
+      }
+    }])
+    .directive("triggerNgRepeatRender", [function () {
+      return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+          var a = $(elem).width();
+        }
+      };
+    }]);
 })(window.angular, window.buildfire);
