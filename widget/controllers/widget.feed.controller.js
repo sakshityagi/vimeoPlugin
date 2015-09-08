@@ -23,11 +23,12 @@
         var init = function () {
           var success = function (result) {
               WidgetFeed.data = result.data;
-              if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
+              if (!WidgetFeed.data.design)
+                WidgetFeed.data.design = {};
+              if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
-              if (WidgetFeed.data.design)
-                currentListLayout = WidgetFeed.data.design.itemListLayout;
+              currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && !currentFeedId) {
                 currentFeedId = WidgetFeed.data.content.feedID;
               }
@@ -55,7 +56,6 @@
         var getFeedVideos = function (_feedId) {
           WidgetFeed.showSpinner = true;
           var success = function (result) {
-              console.log("???????????????????????????????", result);
               WidgetFeed.showSpinner = false;
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
@@ -77,7 +77,9 @@
         var onUpdateCallback = function (event) {
           if (event && event.tag === TAG_NAMES.VIMEO_INFO) {
             WidgetFeed.data = event.data;
-            if (WidgetFeed.data && WidgetFeed.data.design && (!WidgetFeed.data.design.itemListLayout)) {
+            if (!WidgetFeed.data.design)
+              WidgetFeed.data.design = {};
+            if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
             if (WidgetFeed.data.design && WidgetFeed.data.content) {
@@ -112,7 +114,6 @@
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         WidgetFeed.loadMore = function () {
-          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
           getFeedVideos(currentFeedId);

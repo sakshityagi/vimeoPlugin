@@ -10,7 +10,7 @@
       <div class="list-layout"  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
            infinite-scroll-distance="1"
            infinite-scroll-disabled="WidgetFeed.busy">
-        <div class="list-item" ng-repeat="video in WidgetFeed.videos">
+        <div class="list-item" ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
           <div class="list-item-media text-left overflow-hidden">
             <div class="list-media-holder pull-left">
               <a ng-href="{{video.uri | returnVideoUrl}}"><img ng-src="{{video.pictures.sizes[1].link}}"></a>
