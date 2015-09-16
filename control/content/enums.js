@@ -28,7 +28,7 @@
       SINGLE_VIDEO: 'Single Video'
     })
     .constant('VIMEO_KEYS', {
-      ACCESS_TOKEN: '8e73ca420b7b386f936eaa5a0eb24e39'
+      ACCESS_TOKEN: 'ef356b01555cb5252d054820c8f21dbc'
     })
     .constant('LAYOUTS', {
       listLayouts: [
