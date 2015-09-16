@@ -23,6 +23,8 @@
         var init = function () {
           var success = function (result) {
               WidgetFeed.data = result.data;
+              if (!WidgetFeed.data.content)
+                WidgetFeed.data.content = {};
               if (!WidgetFeed.data.design)
                 WidgetFeed.data.design = {};
               if (!WidgetFeed.data.design.itemListLayout) {
