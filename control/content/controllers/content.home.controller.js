@@ -160,6 +160,7 @@
             case CONTENT_TYPE.SINGLE_VIDEO :
               var videoID = Utils.extractSingleVideoIdOrUserID(ContentHome.rssLink);
               if (videoID) {
+                Buildfire.spinner.show();
                 req = {
                   method: 'GET',
                   url: "https://api.vimeo.com/videos/" + videoID,
@@ -169,6 +170,7 @@
                 };
                 $http(req)
                   .success(function (response) {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     console.log(response);
                     if (response.created_time) {
@@ -191,6 +193,7 @@
                     }
                   })
                   .error(function (response) {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     ContentHome.validLinkFailure = true;
                     $timeout(function () {
@@ -214,6 +217,7 @@
             case CONTENT_TYPE.CHANNEL_FEED :
               var feedId = Utils.extractFeedID(ContentHome.rssLink);
               if (feedId) {
+                Buildfire.spinner.show();
                 req = {
                   method: 'GET',
                   url: "https://api.vimeo.com/channels/" + feedId + "/videos?per_page=2",
@@ -223,6 +227,7 @@
                 };
                 $http(req)
                   .success(function (response) {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     console.log(response);
                     if (response.data && response.data.length) {
@@ -245,6 +250,7 @@
                     }
                   })
                   .error(function () {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     ContentHome.validLinkFailure = true;
                     $timeout(function () {
@@ -268,6 +274,7 @@
             case CONTENT_TYPE.USER_FEED :
               var userID = Utils.extractSingleVideoIdOrUserID(ContentHome.rssLink);
               if (userID) {
+                Buildfire.spinner.show();
                 req = {
                   method: 'GET',
                   url: "https://api.vimeo.com/users/" + userID + "/videos?per_page=2",
@@ -277,6 +284,7 @@
                 };
                 $http(req)
                   .success(function (response) {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     console.log(response);
                     if (response.data && response.data.length) {
@@ -299,6 +307,7 @@
                     }
                   })
                   .error(function (response) {
+                    Buildfire.spinner.hide();
                     ContentHome.failureMessage = "Error. Please check and try again";
                     ContentHome.validLinkFailure = true;
                     $timeout(function () {

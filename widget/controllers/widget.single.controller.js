@@ -17,13 +17,15 @@
       var init = function () {
         var success = function (result) {
             WidgetSingle.data = result.data;
-            if (WidgetSingle.data && WidgetSingle.data.design && WidgetSingle.data.content) {
-              if (!WidgetSingle.data.design.itemListLayout) {
-                WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
-              }
-              currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-              currentFeedID = WidgetSingle.data.content.feedID;
+            if (!WidgetSingle.data.content)
+              WidgetSingle.data.content = {};
+            if (!WidgetSingle.data.design)
+              WidgetSingle.data.design = {};
+            if (!WidgetSingle.data.design.itemListLayout) {
+              WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
             }
+            currentItemListLayout = WidgetSingle.data.design.itemListLayout;
+            currentFeedID = WidgetSingle.data.content.feedID;
           }
           , error = function (err) {
             console.error('Error while getting data', err);
@@ -51,6 +53,10 @@
       var onUpdateCallback = function (event) {
         if (event && event.tag === TAG_NAMES.VIMEO_INFO) {
           WidgetSingle.data = event.data;
+          if (!WidgetSingle.data.content)
+            WidgetSingle.data.content = {};
+          if (!WidgetSingle.data.design)
+            WidgetSingle.data.design = {};
           if (!WidgetSingle.data.content.rssUrl) {
             $routeParams.videoId = '';
             WidgetSingle.video = null;
