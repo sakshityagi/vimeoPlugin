@@ -84,7 +84,9 @@
         var init = function () {
           var success = function (result) {
               console.info('Init success result:', result);
-              ContentHome.data = result.data;
+              if (Object.keys(result.data).length > 0) {
+                ContentHome.data = result.data;
+              }
               if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
                 ContentHome.contentType = ContentHome.data.content.type;
               if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)

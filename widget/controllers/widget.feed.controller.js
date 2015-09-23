@@ -87,7 +87,8 @@
             }
             if (WidgetFeed.data.design && WidgetFeed.data.content) {
               if ((currentListLayout != WidgetFeed.data.design.itemListLayout) && view && WidgetFeed.data.content.carouselImages) {
-                view._destroySlider();
+                if (WidgetFeed.data.content.carouselImages.length)
+                  view._destroySlider();
                 view = null;
               }
               else {
