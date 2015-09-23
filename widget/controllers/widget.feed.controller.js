@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('vimeoPluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE',
-      function ($scope, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE) {
         var WidgetFeed = this;
 
         WidgetFeed.data = null;
@@ -12,7 +12,6 @@
         WidgetFeed.videos = [];
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = 1;
-        WidgetFeed.showSpinner = false;
         var currentListLayout = null;
         var currentFeedId = $routeParams.feedId;
         var feedType = "Channel";
@@ -46,7 +45,7 @@
         init();
         $rootScope.$on("Carousel:LOADED", function () {
           if (!view) {
-            view = new buildfire.components.carousel.view("#carousel", []);
+            view = new Buildfire.components.carousel.view("#carousel", []);
           }
           if (WidgetFeed.data.content && WidgetFeed.data.content.carouselImages) {
             view.loadItems(WidgetFeed.data.content.carouselImages);
@@ -56,9 +55,9 @@
         });
 
         var getFeedVideos = function (_feedId) {
-          WidgetFeed.showSpinner = true;
+          Buildfire.spinner.show();
           var success = function (result) {
-              WidgetFeed.showSpinner = false;
+              Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
               WidgetFeed.nextPageToken = result.data.page + 1;
               if (WidgetFeed.videos.length < result.data.total) {
@@ -66,10 +65,10 @@
               }
             }
             , error = function (err) {
-              WidgetFeed.showSpinner = false;
+              Buildfire.spinner.hide();
               console.log('Error In Fetching Single Video Details', err);
             };
-          if (WidgetFeed.data.content && WidgetFeed.data.content.type === CONTENT_TYPE.USER_FEED)
+          if (WidgetFeed.data && WidgetFeed.data.content && WidgetFeed.data.content.type === CONTENT_TYPE.USER_FEED)
             feedType = "User";
           else
             feedType = "Channel";

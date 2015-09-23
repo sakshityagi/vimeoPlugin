@@ -53,30 +53,30 @@ describe('Unit : vimeoPlugin content services', function () {
     it('Utils should exist and be an object', function () {
       expect(typeof Utils).toEqual('object');
     });
-    it('Utils.extractSingleVideoId should exist and be a function', function () {
-      expect(typeof Utils.extractSingleVideoId).toEqual('function');
+    it('Utils.extractSingleVideoIdOrUserID should exist and be a function', function () {
+      expect(typeof Utils.extractSingleVideoIdOrUserID).toEqual('function');
     });
-    it('Utils.extractChannelId should exist and be a function', function () {
-      expect(typeof Utils.extractChannelId).toEqual('function');
+    it('Utils.extractSingleVideoIdOrUserID should exist and be a function', function () {
+      expect(typeof Utils.extractSingleVideoIdOrUserID).toEqual('function');
     });
-    it('Utils.extractSingleVideoId should return a valid videoId', function () {
+    it('Utils.extractSingleVideoIdOrUserID should return a valid videoId', function () {
       var url = "https://vimeo.com/133130486";
-      var videoId = Utils.extractSingleVideoId(url);
+      var videoId = Utils.extractSingleVideoIdOrUserID(url);
       expect(videoId).toEqual('133130486');
     });
-    it('Utils.extractSingleVideoId should return null', function () {
+    it('Utils.extractSingleVideoIdOrUserID should return null', function () {
       var url = "https://vimeo.com/ondemand/thefranciseffect";
-      var videoId = Utils.extractSingleVideoId(url);
+      var videoId = Utils.extractSingleVideoIdOrUserID(url);
       expect(videoId).toEqual(null);
     });
-    it('Utils.extractChannelId should return a valid channelId', function () {
+    it('Utils.extractFeedID should return a valid channelId', function () {
       var url = "https://vimeo.com/channels/staffpicks/137925379";
-      var channelId = Utils.extractChannelId(url);
+      var channelId = Utils.extractFeedID(url);
       expect(channelId).toEqual('staffpicks/137925379');
     });
-    it('Utils.extractChannelId should return null', function () {
+    it('Utils.extractFeedID should return null', function () {
       var url = "https://vimeo.com/ondemand/thefranciseffect";
-      var channelId = Utils.extractChannelId(url);
+      var channelId = Utils.extractFeedID(url);
       expect(channelId).toEqual(null);
     });
   });

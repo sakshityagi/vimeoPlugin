@@ -31,7 +31,9 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
         "carouselImages": [],
         "description": '<p>&nbsp;<br></p>',
         "rssUrl": "",
-        "type": ""
+        "type": "",
+        "feedID": null,
+        "videoID": null
       },
       "design": {
         "itemListLayout": LAYOUTS.listLayouts[0].name,
@@ -90,7 +92,7 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
       expect(ContentHome.masterData).toEqual(_mockData);
     });
     it('it should pass if ContentHome.CONTENT_TYPE match the object', function () {
-      expect(ContentHome.CONTENT_TYPE).toEqual({CHANNEL_FEED: 'Channel Feed', SINGLE_VIDEO: 'Single Video'});
+      expect(ContentHome.CONTENT_TYPE).toEqual({ CHANNEL_FEED: 'Channel Feed', USER_FEED: 'User Feed', SINGLE_VIDEO: 'Single Video' });
     });
     it('it should pass if ContentHome.data match the object', function () {
       expect(ContentHome.data).toEqual(_mockData);
