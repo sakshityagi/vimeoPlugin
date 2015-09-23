@@ -119,7 +119,9 @@
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          getFeedVideos(currentFeedId);
+          if (currentFeedId && currentFeedId !== '1') {
+            getFeedVideos(currentFeedId);
+          }
         };
 
         WidgetFeed.safeHtml = function (html) {
