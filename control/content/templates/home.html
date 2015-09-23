@@ -38,25 +38,36 @@
     <div class="col-md-4 pull-right">
       <button class="btn btn-primary pull-right stretch"
               ng-disabled="!(ContentHome.rssLink)" ng-click="ContentHome.validateRssLink()">
-        Validate</button>
+        Validate
+      </button>
+    </div>
+  </div>
+</div>
+<div ng-if="ContentHome.validLinkSuccess || ContentHome.validLinkFailure">
+  <hr class="none">
+  <div class="item clearfix row">
+    <div class="main pull-right col-md-9">
+      <div class="alert alert-success alert-sm text-center"
+           ng-show="ContentHome.validLinkSuccess">Feed
+        successfully validated
+      </div>
+      <div class="alert alert-danger alert-sm text-center"
+           ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}
+      </div>
     </div>
   </div>
 </div>
 <hr class="none">
 <div class="item clearfix row">
-  <div class="main pull-right col-md-9">
-    <div class="alert alert-success alert-sm text-center"
-         ng-show="ContentHome.validLinkSuccess">Feed
-      successfully validated</div>
-    <div class="alert alert-danger alert-sm text-center"
-         ng-show="ContentHome.validLinkFailure">{{ContentHome.failureMessage}}</div>
-  </div>
-</div>
-<br>
-<div class="item clearfix row">
-  <div class="main pull-right col-md-9">
-    <p>Having problems with your feed? Ensure that is a valid feed by naming it through an RSS feed validator
-      <a href="https://validator.w3.org/feed" target="_blank">HERE</a></p>
+  <div ng-switch="ContentHome.contentType" class="main pull-right col-md-9">
+    <p ng-switch-when="Channel Feed">Channel Feed Example: <a href="https://vimeo.com/channels/pmg" target="_blank">https://vimeo.com/channels/pmg</a>
+    </p>
+
+    <p ng-switch-when="User Feed">User Feed Example: <a href="http://vimeo.com/gopro" target="_blank">http://vimeo.com/gopro</a>
+    </p>
+
+    <p ng-switch-when="Single Video">Single Video Example: <a href="https://vimeo.com/130824206" target="_blank">https://vimeo.com/130824206</a>
+    </p>
   </div>
 </div>
 <hr>
@@ -70,8 +81,8 @@
 <hr class="none">
 <div class="item clearfix row">
   <div class="main col-md-12 pull-left">
-        <textarea id="text" rows="5" width="100%" class="form-control"
-                  ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
-                  placeholder="WYSIWYG"></textarea>
+    <textarea id="text" rows="5" width="100%" class="form-control"
+              ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
+              placeholder="WYSIWYG"></textarea>
   </div>
 </div>
