@@ -1,5 +1,5 @@
 describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
-  var WidgetFeed, $controller, $rootScope, $httpBackend, DataStore, q, $scope, TAG_NAMES, STATUS_CODE, VimeoApi, Location, $routeParams, LAYOUTS, VIDEO_COUNT;
+  var WidgetFeed, $controller, $rootScope, Buildfire, $httpBackend, DataStore, q, $scope, TAG_NAMES, STATUS_CODE, VimeoApi, Location, $routeParams, LAYOUTS, VIDEO_COUNT;
 
   beforeEach(module('vimeoPluginWidget'));
 
@@ -56,6 +56,16 @@ describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
       });
       return deferred.promise;
     });
+    Buildfire = {
+      spinner: {}
+    };
+    Buildfire.spinner = jasmine.createSpyObj('Buildfire.spinner', ['show', 'hide']);
+    Buildfire.spinner.show.and.callFake(function () {
+      console.log('Buildfire.spinner.show have called');
+    });
+    Buildfire.spinner.hide.and.callFake(function () {
+      console.log('Buildfire.spinner.hide have called');
+    });
     $routeParams = {
       channelID: 'staffpicks'
     };
@@ -68,7 +78,8 @@ describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
       DataStore: DataStore,
       TAG_NAMES: TAG_NAMES,
       STATUS_CODE: STATUS_CODE,
-      VimeoApi: VimeoApi
+      VimeoApi: VimeoApi,
+      Buildfire: Buildfire
     });
   });
 
@@ -119,10 +130,6 @@ describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
     it('WidgetFeed.nextPageToken should be defined and is equal to 1', function () {
       expect(WidgetFeed.nextPageToken).not.toBeUndefined();
       expect(WidgetFeed.nextPageToken).toEqual(1);
-    });
-    it('WidgetFeed.showSpinner should be defined and is equal to false', function () {
-      expect(WidgetFeed.showSpinner).not.toBeUndefined();
-      expect(WidgetFeed.showSpinner).toEqual(false);
     });
   });
 

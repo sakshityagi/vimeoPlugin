@@ -110,5 +110,14 @@
           var a = $(elem).width();
         }
       };
+    }])
+    .run(['Location', '$location', function (Location, $location) {
+      buildfire.navigation.onBackButtonClick = function () {
+        var reg = /^\/feed/;
+        if (!($location.path().match(reg))) {
+          Location.goTo('#/');
+        }
+      };
+
     }]);
 })(window.angular, window.buildfire);
