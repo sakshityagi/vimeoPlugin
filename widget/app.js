@@ -123,6 +123,8 @@
         var reg = /^\/feed/;
         if (!($location.path().match(reg))) {
           Location.goTo('#/');
+        } else {
+          buildfire.navigation.navigateHome();
         }
       };
 
