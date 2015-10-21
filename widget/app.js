@@ -106,12 +106,6 @@
         return $sce.trustAsResourceUrl("http://player.vimeo.com/video/" + id);
       }
     }])
-    .filter('returnVideoUrl', [function () {
-      return function (uri) {
-        var videoId = uri.split("/").pop();
-        return "#/video/" + videoId;
-      }
-    }])
     .directive("triggerNgRepeatRender", [function () {
       return {
         restrict: 'A',

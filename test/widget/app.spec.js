@@ -73,20 +73,6 @@ describe('Unit : vimeoPlugin widget app.js', function () {
     });
   });
 
-  describe('Unit: returnVideoUrl filter', function () {
-    beforeEach(module('vimeoPluginWidget'));
-    var filter;
-    beforeEach(inject(function (_$filter_) {
-      filter = _$filter_;
-    }));
-
-    it('it should returns VideoUrl', function () {
-      var VideoUrl;
-      VideoUrl = filter('returnVideoUrl')("/videos/137925379");
-      expect(VideoUrl).toEqual("#/video/137925379");
-    });
-  });
-
   describe('Unit: backgroundImage directive', function () {
     describe('backgroundImage directive have assigned a url value', function () {
       var $compile, $rootScope, backgroundImage, $scope;

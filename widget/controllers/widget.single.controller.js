@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('vimeoPluginWidget')
-    .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'VimeoApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope',
-      function ($routeParams, $scope, VimeoApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope) {
+    .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'VimeoApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
+      function ($routeParams, $scope, VimeoApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
         var currentFeedID = null,
           currentItemListLayout = null;
 
@@ -46,7 +46,11 @@
         };
 
         if ($routeParams.videoId) {
-          getSingleVideoDetails($routeParams.videoId);
+          if (VideoCache.getVideo()) {
+            WidgetSingle.video = VideoCache.getVideo();
+          }
+          else
+            getSingleVideoDetails($routeParams.videoId);
         } else {
           console.error('Undefined Video Id Provided');
         }

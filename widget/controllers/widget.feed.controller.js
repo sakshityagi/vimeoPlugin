@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('vimeoPluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE', 'VideoCache',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE, VideoCache) {
         var WidgetFeed = this;
 
         WidgetFeed.data = null;
@@ -134,6 +134,12 @@
 
         WidgetFeed.showDescription = function (description) {
           return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
+        };
+
+        WidgetFeed.openDetailsPage = function (video) {
+          VideoCache.setVideo(video);
+          var videoId = video.uri.split("/").pop();
+          Location.goTo('#/video/' + videoId);
         };
 
         $scope.$on("$destroy", function () {
