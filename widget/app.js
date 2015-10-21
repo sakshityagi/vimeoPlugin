@@ -1,13 +1,13 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll'])
+  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll','ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
        * To make href urls safe on mobile
        */
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|vimeo):/);
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
 
       $routeProvider
