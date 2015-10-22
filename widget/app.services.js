@@ -217,5 +217,15 @@
         }
       };
     }])
-  ;
+    .factory('VideoCache', [function () {
+      var video = null;
+      return {
+        setVideo: function (data) {
+          video = data;
+        },
+        getVideo: function () {
+          return video;
+        }
+      };
+    }]);
 })(window.angular, window.buildfire);

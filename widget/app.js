@@ -1,45 +1,47 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll'])
+  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll','ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
        * To make href urls safe on mobile
        */
-      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile):/);
+      $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
 
       $routeProvider
         .when('/', {
           resolve: {
-            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location) {
-              var deferred = $q.defer();
-              var success = function (result) {
-                  if (result.data && result.data.content) {
-                    if (result.data.content.type && result.data.content.type === CONTENT_TYPE.SINGLE_VIDEO && result.data.content.videoID) {
-                      Location.goTo("#/video/" + result.data.content.videoID);
-                      deferred.resolve();
-                    }
-                    else if (result.data.content.type && ((result.data.content.type === CONTENT_TYPE.CHANNEL_FEED) || (result.data.content.type === CONTENT_TYPE.USER_FEED)) && result.data.content.feedID) {
-                      Location.goTo("#/feed/" + result.data.content.feedID);
-                      deferred.resolve();
-                    }
-                    else {
+            videoData: ['DataStore', '$q', 'TAG_NAMES', 'CONTENT_TYPE', 'Location', '$rootScope',
+              function (DataStore, $q, TAG_NAMES, CONTENT_TYPE, Location, $rootScope) {
+                var deferred = $q.defer();
+                var success = function (result) {
+                    if (result.data && result.data.content) {
+                      $rootScope.contentType = result.data.content.type;
+                      if (result.data.content.type && result.data.content.type === CONTENT_TYPE.SINGLE_VIDEO && result.data.content.videoID) {
+                        Location.goTo("#/video/" + result.data.content.videoID);
+                        deferred.resolve();
+                      }
+                      else if (result.data.content.type && ((result.data.content.type === CONTENT_TYPE.CHANNEL_FEED) || (result.data.content.type === CONTENT_TYPE.USER_FEED)) && result.data.content.feedID) {
+                        Location.goTo("#/feed/" + result.data.content.feedID);
+                        deferred.resolve();
+                      }
+                      else {
+                        Location.goTo("#/feed/1");
+                        deferred.resolve();
+                      }
+                    } else {
                       Location.goTo("#/feed/1");
                       deferred.resolve();
                     }
-                  } else {
-                    Location.goTo("#/feed/1");
-                    deferred.resolve();
                   }
-                }
-                , error = function (err) {
-                  Location.goTo("#/feed/1");
-                  deferred.reject();
-                };
-              DataStore.get(TAG_NAMES.VIMEO_INFO).then(success, error);
-            }]
+                  , error = function (err) {
+                    Location.goTo("#/feed/1");
+                    deferred.reject();
+                  };
+                DataStore.get(TAG_NAMES.VIMEO_INFO).then(success, error);
+              }]
           }
         })
         .when('/feed/:feedId', {
@@ -101,13 +103,7 @@
     .filter('returnVimeoUrl', ['$sce', function ($sce) {
       return function (uri) {
         var id = uri.split("/").pop();
-        return $sce.trustAsResourceUrl("//player.vimeo.com/video/" + id);
-      }
-    }])
-    .filter('returnVideoUrl', [function () {
-      return function (uri) {
-        var videoId = uri.split("/").pop();
-        return "#/video/" + videoId;
+        return $sce.trustAsResourceUrl("http://player.vimeo.com/video/" + id);
       }
     }])
     .directive("triggerNgRepeatRender", [function () {
@@ -118,13 +114,19 @@
         }
       };
     }])
-    .run(['Location', '$location', function (Location, $location) {
+    .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/feed/;
-        if (!($location.path().match(reg))) {
-          Location.goTo('#/');
+        if ($rootScope.contentType == "Channel Feed") {
+          if (!($location.path().match(reg))) {
+            Location.goTo('#/');
+          } else {
+            buildfire.navigation.navigateHome();
+          }
+        }
+        else {
+          buildfire.navigation.navigateHome();
         }
       };
-
     }]);
 })(window.angular, window.buildfire);

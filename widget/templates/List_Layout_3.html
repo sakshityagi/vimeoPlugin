@@ -21,7 +21,8 @@
         </div>
         <div class="padded text-left">
           <a class="text-primary"
-             ng-href="{{video.uri | returnVideoUrl}}">{{video.name}}</a>
+             href="javascript:void(0)"
+             ng-click="WidgetFeed.openDetailsPage(video)">{{video.name}}</a>
 
           <p class="margin-bottom-zero">{{video.description |
             limitTo:200}}{{(video.description.length >200) && "..." || ""}}</p>
