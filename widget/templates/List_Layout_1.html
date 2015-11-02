@@ -19,7 +19,7 @@
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)">
-                <img  ng-src="{{video.pictures.sizes[1].link}}"></a>
+                <img  ng-src="{{video.pictures.sizes[1].link| getImageUrl:240:160}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-center">

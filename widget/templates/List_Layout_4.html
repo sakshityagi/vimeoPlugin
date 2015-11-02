@@ -16,7 +16,7 @@
           <div class="list-item-media text-center border-radius-three overflow-hidden">
             <div class="list-media-holder">
               <a href="javascript:void(0)"
-                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.pictures.sizes[1].link}}"></a>
+                 ng-click="WidgetFeed.openDetailsPage(video)"><img ng-src="{{video.pictures.sizes[1].link| getImageUrl:200:200}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-left">
