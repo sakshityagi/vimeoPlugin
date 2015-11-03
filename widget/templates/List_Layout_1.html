@@ -19,7 +19,7 @@
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)">
-                <img  ng-src="{{video.pictures.sizes[1].link}}"></a>
+                <img  ng-src="{{video.pictures.sizes[1].link| getImageUrl:240:160}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-center">
@@ -27,7 +27,7 @@
                 class="ellipsis margin-zero"><a class="text-primary" href="javascript:void(0)"
                                                 ng-click="WidgetFeed.openDetailsPage(video)">{{video.name}}</a></p>
             <p class="summary ellipsis margin-zero">{{video.description}}</p>
-            <span class="list-item-date">{{video.created_time | date:'medium'}}</span>
+            <span class="list-item-date">{{video.created_time | date}}</span>
           </div>
         </div>
       </div>
