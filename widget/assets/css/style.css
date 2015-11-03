@@ -11,6 +11,11 @@
     padding-right: 2%;
 }
 
+.layout1 .list-layout .list-item-copy,
+.layout4 .list-layout .list-item-copy {
+    min-height: 80px;
+}
+
 
 /*
 * Set height of body to auto for enabling scroll
