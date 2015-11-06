@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll','ngAnimate'])
+  angular.module('vimeoPluginWidget', ['ngRoute', 'infinite-scroll', 'ngAnimate'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
@@ -96,11 +96,13 @@
         }
       };
     }])
-    .directive("buildFireCarousel", ["$rootScope", function ($rootScope) {
+    .directive("buildFireCarousel", ["$rootScope", "$timeout", function ($rootScope, $timeout) {
       return {
         restrict: 'A',
         link: function (scope, elem, attrs) {
-          $rootScope.$broadcast("Carousel:LOADED");
+          $timeout(function () {
+            $rootScope.$broadcast("Carousel:LOADED");
+          }, 100);
         }
       };
     }])
