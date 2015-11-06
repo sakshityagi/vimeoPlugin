@@ -10,6 +10,7 @@
     <div class="padded padding-top-zero video-list"  ng-if="WidgetFeed.data">
       <div class="list-layout" infinite-scroll="WidgetFeed.loadMore()"
            infinite-scroll-distance="1"
+           data-infinite-container=".infinite-scroll-parent"
            infinite-scroll-disabled="WidgetFeed.busy">
         <div class="list-item col-xs-6 pull-left"
              ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
@@ -25,7 +26,7 @@
                 href="javascript:void(0)"
                 ng-click="WidgetFeed.openDetailsPage(video)">{{video.name}}</a></p>
 
-            <p class="summary ellipsis margin-zero">{{video.description}}</p>
+            <p class="summary ellipsis margin-zero" style="max-width: 240px">{{video.description}}</p>
             <span class="list-item-date">{{video.created_time | date}}</span>
           </div>
         </div>
