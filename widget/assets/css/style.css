@@ -36,15 +36,7 @@
 /*
 * Video thumbnails styling
 */
-.video-list .list-item {
-    min-height: 180px;
-}
-.video-list.wide .list-item {
-    min-height: 200px;
-}
-.video-list.wide {
-    padding: 5px;
-}
+
 .video-list.wide .list-layout .list-item {
     padding-left: 1%;
     padding-right: 1%;

@@ -5,7 +5,7 @@
       <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)" class="padded text-left">
-      <p class="margin-bottom-zero"
+      <p class="margin-bottom-zero break-word"
          ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)'></p>
     </div>
     <div  ng-if="WidgetFeed.data" infinite-scroll="WidgetFeed.loadMore()"
