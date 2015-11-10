@@ -158,11 +158,6 @@ describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
       });
     });
 
-    it('it should pass if WidgetFeed.loadMore called', function () {
-      WidgetFeed.loadMore();
-      $rootScope.$digest();
-      expect(WidgetFeed.busy).toEqual(true);
-    });
     it('it should pass if WidgetFeed.loadMore called and returned because WidgetFeed.busy is true', function () {
       WidgetFeed.busy = true;
       WidgetFeed.loadMore();

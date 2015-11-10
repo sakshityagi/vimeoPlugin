@@ -37,9 +37,11 @@
 
         var getSingleVideoDetails = function (_videoId) {
           var success = function (result) {
+              $rootScope.showFeed = false;
               WidgetSingle.video = result.data;
             }
             , error = function (err) {
+              $rootScope.showFeed = false;
               console.error('Error In Fetching Single Video Details', err);
             };
           VimeoApi.getSingleVideoDetails(_videoId).then(success, error);
@@ -47,6 +49,7 @@
 
         if ($routeParams.videoId) {
           if (VideoCache.getVideo()) {
+            $rootScope.showFeed = false;
             WidgetSingle.video = VideoCache.getVideo();
           }
           else
@@ -72,7 +75,8 @@
               getSingleVideoDetails(WidgetSingle.data.content.videoID);
             } else if (!WidgetSingle.video && WidgetSingle.data.content.feedID && !$routeParams.videoId) {
               currentFeedID = WidgetSingle.data.content.feedID;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.feedID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
 
             if (WidgetSingle.data.content.videoID && (WidgetSingle.data.content.videoID !== $routeParams.videoId)) {
@@ -80,15 +84,19 @@
             } else if (WidgetSingle.data.design && WidgetSingle.data.content.feedID && (!$routeParams.videoId || (WidgetSingle.data.design.itemListLayout !== currentItemListLayout) || (WidgetSingle.data.content.feedID !== currentFeedID))) {
               currentFeedID = WidgetSingle.data.content.feedID;
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
-              Location.goTo("#/feed/" + WidgetSingle.data.content.feedID);
+              $rootScope.showFeed = true;
+              Location.goTo("#/");
             }
           }
         };
+        
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
+          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data.design.itemListLayout,WidgetSingle.data.content.feedID);
         });
+
       }])
 })(window.angular);
 

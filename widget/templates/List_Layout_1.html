@@ -4,7 +4,7 @@
       <div id="carousel" build-fire-carousel=""></div>
     </div>
     <div class="text-left padded padding-bottom-zero clearfix">
-      <p
+      <p class="break-word"
           ng-bind-html='WidgetFeed.safeHtml(WidgetFeed.data.content.description)' ng-if="WidgetFeed.showDescription(WidgetFeed.data.content.description)"></p>
     </div>
     <div class="padded padding-top-zero video-list wide"
@@ -20,7 +20,7 @@
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)">
-                <img  ng-src="{{video.pictures.sizes[1].link| getImageUrl:240:160}}"></a>
+                <img  ng-src="{{video.pictures.sizes[1].link| getImageUrl:160:90}}"></a>
             </div>
           </div>
           <div class="list-item-copy text-center">

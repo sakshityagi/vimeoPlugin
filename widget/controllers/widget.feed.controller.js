@@ -2,8 +2,8 @@
 
 (function (angular) {
   angular.module('vimeoPluginWidget')
-    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', '$routeParams', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE', 'VideoCache',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, $routeParams, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE, VideoCache) {
+    .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE', 'VideoCache',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE, VideoCache) {
         var WidgetFeed = this;
 
         WidgetFeed.data = null;
@@ -13,8 +13,9 @@
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = 1;
         var currentListLayout = null;
-        var currentFeedId = $routeParams.feedId;
+        var currentFeedId = null;
         var feedType = "Channel";
+        $rootScope.showFeed = true;
 
         /*
          * Fetch user's data from datastore
@@ -26,9 +27,13 @@
                 WidgetFeed.data.content = {};
               if (!WidgetFeed.data.design)
                 WidgetFeed.data.design = {};
+              if (!WidgetFeed.data.content)
+                WidgetFeed.data.content = {};
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if (WidgetFeed.data.content.type)
+                $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
               if (WidgetFeed.data.content && !currentFeedId) {
                 currentFeedId = WidgetFeed.data.content.feedID;
@@ -112,7 +117,10 @@
 
             if (WidgetFeed.data.content && WidgetFeed.data.content.feedID && (WidgetFeed.data.content.feedID !== currentFeedId)) {
               currentFeedId = WidgetFeed.data.content.feedID;
-              Location.goTo("#/feed/" + WidgetFeed.data.content.feedID);
+              WidgetFeed.videos = [];
+              WidgetFeed.busy = false;
+              WidgetFeed.nextPageToken = null;
+              WidgetFeed.loadMore();
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
@@ -124,6 +132,10 @@
           WidgetFeed.busy = true;
           if (currentFeedId && currentFeedId !== '1') {
             getFeedVideos(currentFeedId);
+          }
+          else {
+            if (WidgetFeed.data.content.videoID)
+              Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
           }
         };
 
@@ -141,6 +153,20 @@
           var videoId = video.uri.split("/").pop();
           Location.goTo('#/video/' + videoId);
         };
+
+        $rootScope.$on("ROUTE_CHANGED", function (e, itemListLayout, feedID) {
+          if (!WidgetFeed.data.design)
+            WidgetFeed.data.design = {};
+          if (!WidgetFeed.data.content)
+            WidgetFeed.data.content = {};
+          WidgetFeed.data.design.itemListLayout = itemListLayout;
+          if (!(WidgetFeed.videos.length > 0) && feedID) {
+            currentFeedId = feedID;
+            WidgetFeed.data.content.feedID = playlistId;
+            getFeedVideos(WidgetFeed.data.content.feedID);
+          }
+          DataStore.onUpdate().then(null, null, onUpdateCallback);
+        });
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
