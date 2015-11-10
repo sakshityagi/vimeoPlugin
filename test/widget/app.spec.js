@@ -7,22 +7,6 @@ describe('Unit : vimeoPlugin widget app.js', function () {
       route = _$route_;
       rootScope = _$rootScope_;
     }));
-    describe('feed route', function () {
-      beforeEach(inject(
-        function ($httpBackend) {
-          $httpBackend.expectGET('templates/home.html')
-            .respond(200);
-          $httpBackend.expectGET('/feed/:channelId')
-            .respond(200);
-        }));
-
-      it('should load the home page on successful load of location path /feed/:channelId/', function () {
-        location.path('/feed/:channelId');
-        rootScope.$digest();
-        expect(route.current.controller).toBe('WidgetFeedCtrl')
-      });
-    });
-
     describe('Video details route', function () {
       beforeEach(inject(
         function ($httpBackend) {
