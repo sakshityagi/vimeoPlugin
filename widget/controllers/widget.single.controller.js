@@ -94,7 +94,7 @@
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
-          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data.design.itemListLayout,WidgetSingle.data.content.feedID);
+          $rootScope.$broadcast('ROUTE_CHANGED', WidgetSingle.data);
         });
 
       }])
