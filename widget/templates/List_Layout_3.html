@@ -25,7 +25,8 @@
              href="javascript:void(0)"
              ng-click="WidgetFeed.openDetailsPage(video)">{{video.name}}</a>
 
-          <p class="margin-bottom-zero" style="max-width: 240px">{{video.description |
+          <p class="margin-bottom-zero break-word"
+             style="max-width: 300px">{{video.description |
             limitTo:200}}{{(video.description.length >200) && "..." || ""}}</p>
           <span class="list-item-date">{{video.created_time | date}}</span>
         </div>
