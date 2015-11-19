@@ -154,16 +154,21 @@
           Location.goTo('#/video/' + videoId);
         };
 
-        $rootScope.$on("ROUTE_CHANGED", function (e, itemListLayout, feedID) {
+        $rootScope.$on("ROUTE_CHANGED", function (e, data) {
+          WidgetFeed.data = data;
           if (!WidgetFeed.data.design)
             WidgetFeed.data.design = {};
           if (!WidgetFeed.data.content)
             WidgetFeed.data.content = {};
-          WidgetFeed.data.design.itemListLayout = itemListLayout;
-          if (!(WidgetFeed.videos.length > 0) && feedID) {
-            currentFeedId = feedID;
-            WidgetFeed.data.content.feedID = playlistId;
+          if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.feedID) {
+            currentFeedId = WidgetFeed.data.content.feedID;
             getFeedVideos(WidgetFeed.data.content.feedID);
+          }
+          if (!view) {
+            view = new Buildfire.components.carousel.view("#carousel", []);
+          }
+          if (view && WidgetFeed.data.content.carouselImages) {
+            view.loadItems(WidgetFeed.data.content.carouselImages);
           }
           DataStore.onUpdate().then(null, null, onUpdateCallback);
         });

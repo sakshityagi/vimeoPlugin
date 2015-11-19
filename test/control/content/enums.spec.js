@@ -89,8 +89,8 @@ describe('Unit : vimeoPlugin content Enums', function () {
     it('VIMEO_KEYS should exist and be an object', function () {
       expect(typeof VIMEO_KEYS).toEqual('object');
     });
-    it('VIMEO_KEYS.ACCESS_TOKEN should exist and equals to "8e73ca420b7b386f936eaa5a0eb24e39"', function () {
-      expect(VIMEO_KEYS.ACCESS_TOKEN).toEqual('ef356b01555cb5252d054820c8f21dbc');
+    it('VIMEO_KEYS.ACCESS_TOKEN should exist and equals to "fa3b572099781e58e1506be643c3934c"', function () {
+      expect(VIMEO_KEYS.ACCESS_TOKEN).toEqual('fa3b572099781e58e1506be643c3934c');
     });
   });
 

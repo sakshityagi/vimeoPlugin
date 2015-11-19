@@ -84,10 +84,22 @@
         }
       };
     }])
+    .directive("manageAspectRatio", [function () {
+      return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+          setTimeout(function () {
+            var width = $(window).width();
+            var height = (width * 9) / 16;
+            $(elem).css({height: height});
+          }, 100);
+        }
+      };
+    }])
     .run(['Location', '$location', '$rootScope', function (Location, $location, $rootScope) {
       buildfire.navigation.onBackButtonClick = function () {
         var reg = /^\/video/;
-        if (reg.test($location.path()) && ($rootScope.contentType == "Channel Feed" || "User Feed")) {
+        if (reg.test($location.path()) && ($rootScope.contentType == "Channel Feed" || $rootScope.contentType == "User Feed")) {
           $rootScope.showFeed = true;
           Location.goTo('#/');
         }
