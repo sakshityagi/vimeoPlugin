@@ -37,7 +37,8 @@
     </div>
     <div class="col-md-4 pull-right">
       <button class="btn btn-primary pull-right stretch"
-              ng-disabled="!(ContentHome.rssLink)" ng-click="ContentHome.validateRssLink()">
+              ng-disabled="!(ContentHome.rssLink)"
+              ng-click="ContentHome.validateRssLink()">
         Validate
       </button>
     </div>
@@ -60,29 +61,34 @@
 <hr class="none">
 <div class="item clearfix row">
   <div ng-switch="ContentHome.contentType" class="main pull-right col-md-9">
-    <p ng-switch-when="Channel Feed">Channel Feed Example: <a href="https://vimeo.com/channels/pmg" target="_blank">https://vimeo.com/channels/pmg</a>
+    <p ng-switch-when="Channel Feed">Channel Feed Example: <a
+        href="https://vimeo.com/channels/pmg" target="_blank">https://vimeo.com/channels/pmg</a>
     </p>
 
-    <p ng-switch-when="User Feed">User Feed Example: <a href="http://vimeo.com/gopro" target="_blank">http://vimeo.com/gopro</a>
+    <p ng-switch-when="User Feed">User Feed Example: <a
+        href="http://vimeo.com/gopro" target="_blank">http://vimeo.com/gopro</a>
     </p>
 
-    <p ng-switch-when="Single Video">Single Video Example: <a href="https://vimeo.com/130824206" target="_blank">https://vimeo.com/130824206</a>
+    <p ng-switch-when="Single Video">Single Video Example: <a
+        href="https://vimeo.com/130824206" target="_blank">https://vimeo.com/130824206</a>
     </p>
   </div>
 </div>
-<hr>
-<div id="carousel"></div>
-<hr>
-<div class="item clearfix row">
+<hr ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
+<div id="carousel" ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO"></div>
+<hr ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
+<div class="item clearfix row"
+     ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
   <div class="labels col-md-3 padding-right-zero pull-left">
     <span>Text</span>
   </div>
 </div>
-<hr class="none">
-<div class="item clearfix row">
+<hr class="none" ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
+<div class="item clearfix row" ng-hide="ContentHome.contentType == ContentHome.CONTENT_TYPE.SINGLE_VIDEO">
   <div class="main col-md-12 pull-left">
     <textarea id="text" rows="5" width="100%" class="form-control"
-              ui-tinymce="ContentHome.descriptionWYSIWYGOptions" ng-model="ContentHome.data.content.description"
+              ui-tinymce="ContentHome.descriptionWYSIWYGOptions"
+              ng-model="ContentHome.data.content.description"
               placeholder="WYSIWYG"></textarea>
   </div>
 </div>
