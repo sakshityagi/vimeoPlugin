@@ -11,6 +11,11 @@
         WidgetSingle.data = null;
         WidgetSingle.video = null;
 
+        WidgetSingle.viewSource = function (link) {
+          if (link)
+            buildfire.navigation.openWindow(link);
+        }
+
         /*
          * Fetch user's data from datastore
          */
