@@ -180,5 +180,4 @@ describe("Unit : vimeoPluginWidget widget.feed.controller.js", function () {
       expect(isDescription).toEqual(false);
     });
   });
-})
-;
+});
