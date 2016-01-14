@@ -16,7 +16,7 @@
            infinite-scroll-disabled="WidgetFeed.busy">
         <div class="list-item col-xs-6 pull-left video-box"
              ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
-          <div class="list-item-media text-center border-radius-three overflow-hidden">
+          <div class="list-item-media text-left border-radius-three overflow-hidden">
             <div class="list-media-holder">
               <a href="javascript:void(0)"
                  ng-click="WidgetFeed.openDetailsPage(video)">
@@ -24,7 +24,7 @@
                       data-final-src="{{video.pictures.sizes[1].link| getImageUrl:160:90}}"></a>
             </div>
           </div>
-          <div class="list-item-copy text-center">
+          <div class="list-item-copy text-left">
             <p
                 class="ellipsis margin-zero text-primary"><a class="text-primary"
                                                  href="javascript:void(0)"
