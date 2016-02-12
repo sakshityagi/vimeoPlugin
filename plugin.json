@@ -3,6 +3,7 @@
 ,"pluginName":"Vimeo"
 ,"pluginDescription":"Sync your Vimeo channel feed, user feed, or a single video and to give your users a fresh viewing experience. When you upload new videos, they'll automatically be pulled into your app."
 ,"supportEmail":"support@buildfire.com"
+,"supportSite":"http://support.appdocumentation.com/knowledge-base/vimeo-plugin/"
 ,"control":{
   "content":{
     "enabled":true
