@@ -145,7 +145,12 @@
         };
 
         WidgetFeed.showDescription = function (description) {
-          return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
+          var _retVal = false;
+          description = description.trim();
+          if(description && (description !== '<p>&nbsp;<br></p>') && (description !== '<p><br data-mce-bogus="1"></p>')) {
+            _retVal = true;
+          }
+          return _retVal;
         };
 
         WidgetFeed.openDetailsPage = function (video) {
