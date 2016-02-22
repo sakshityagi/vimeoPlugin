@@ -23,7 +23,7 @@
         var ContentHome = this;
         ContentHome.masterData = null;
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
-        ContentHome.data = angular.copy(_data);
+        // ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
         ContentHome.validLinkFailure = false;
         ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
@@ -87,15 +87,19 @@
               if (Object.keys(result.data).length > 0) {
                 ContentHome.data = result.data;
               }
-              if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
-                ContentHome.contentType = ContentHome.data.content.type;
-              if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
-                ContentHome.rssLink = ContentHome.data.content.rssUrl;
-              if (ContentHome.data.content) {
-                if (!ContentHome.data.content.carouselImages)
-                  editor.loadItems([]);
-                else
-                  editor.loadItems(ContentHome.data.content.carouselImages);
+              if (!ContentHome.data) {
+                ContentHome.data = angular.copy(_data);
+              } else {
+                if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
+                  ContentHome.contentType = ContentHome.data.content.type;
+                if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.rssUrl)
+                  ContentHome.rssLink = ContentHome.data.content.rssUrl;
+                if (ContentHome.data.content) {
+                  if (!ContentHome.data.content.carouselImages)
+                    editor.loadItems([]);
+                  else
+                    editor.loadItems(ContentHome.data.content.carouselImages);
+                }
               }
               updateMasterItem(ContentHome.data);
               if (tmrDelay)clearTimeout(tmrDelay);
