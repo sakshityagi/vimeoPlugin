@@ -1,9 +1,14 @@
 'use strict';
 
-(function (angular) {
+(function (angular, buildfire) {
   angular.module('vimeoPluginWidget')
     .controller('WidgetSingleCtrl', ['$routeParams', '$scope', 'VimeoApi', 'DataStore', 'TAG_NAMES', 'Location', 'LAYOUTS', '$rootScope', 'VideoCache',
       function ($routeParams, $scope, VimeoApi, DataStore, TAG_NAMES, Location, LAYOUTS, $rootScope, VideoCache) {
+
+        buildfire.datastore.onRefresh(function () {
+          // Don't do anything on pull down
+        });
+
         var currentFeedID = null,
           currentItemListLayout = null;
 
@@ -14,7 +19,7 @@
         WidgetSingle.viewSource = function (link) {
           if (link)
             buildfire.navigation.openWindow(link);
-        }
+        };
 
         /*
          * Fetch user's data from datastore
@@ -94,7 +99,7 @@
             }
           }
         };
-        
+
         DataStore.onUpdate().then(null, null, onUpdateCallback);
 
         $scope.$on("$destroy", function () {
@@ -103,5 +108,5 @@
         });
 
       }])
-})(window.angular);
+})(window.angular, window.buildfire);
 
