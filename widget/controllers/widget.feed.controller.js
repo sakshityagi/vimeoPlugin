@@ -1,6 +1,6 @@
 'use strict';
 
-(function (angular) {
+(function (angular,buildfire) {
   angular.module('vimeoPluginWidget')
     .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE', 'VideoCache',
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE, VideoCache) {
@@ -178,10 +178,24 @@
             view.loadItems(WidgetFeed.data.content.carouselImages);
           }
           DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+          buildfire.datastore.onRefresh(function () {
+            WidgetFeed.videos = [];
+            WidgetFeed.busy = false;
+            WidgetFeed.nextPageToken = null;
+            WidgetFeed.loadMore();
+          });
         });
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
+
+        buildfire.datastore.onRefresh(function () {
+          WidgetFeed.videos = [];
+          WidgetFeed.busy = false;
+          WidgetFeed.nextPageToken = null;
+          WidgetFeed.loadMore();
+        });
       }])
-})(window.angular);
+})(window.angular, window.buildfire);
