@@ -1,6 +1,6 @@
 'use strict';
 
-(function (angular) {
+(function (angular,buildfire) {
   angular.module('vimeoPluginWidget')
     .controller('WidgetFeedCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'VimeoApi', 'VIDEO_COUNT', '$sce', 'Location', '$rootScope', 'LAYOUTS', 'CONTENT_TYPE', 'VideoCache',
       function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, VimeoApi, VIDEO_COUNT, $sce, Location, $rootScope, LAYOUTS, CONTENT_TYPE, VideoCache) {
@@ -153,7 +153,14 @@
         };
 
         WidgetFeed.showDescription = function (description) {
-          return !((description == '<p>&nbsp;<br></p>') || (description == '<p><br data-mce-bogus="1"></p>'));
+          var _retVal = false;
+          if (description) {
+            description = description.trim();
+            if ((description !== '<p>&nbsp;<br></p>') && (description !== '<p><br data-mce-bogus="1"></p>')) {
+              _retVal = true;
+            }
+          }
+          return _retVal;
         };
 
         WidgetFeed.openDetailsPage = function (video) {
@@ -179,10 +186,24 @@
             view.loadItems(WidgetFeed.data.content.carouselImages);
           }
           DataStore.onUpdate().then(null, null, onUpdateCallback);
+
+          buildfire.datastore.onRefresh(function () {
+            WidgetFeed.videos = [];
+            WidgetFeed.busy = false;
+            WidgetFeed.nextPageToken = null;
+            WidgetFeed.loadMore();
+          });
         });
 
         $scope.$on("$destroy", function () {
           DataStore.clearListener();
         });
+
+        buildfire.datastore.onRefresh(function () {
+          WidgetFeed.videos = [];
+          WidgetFeed.busy = false;
+          WidgetFeed.nextPageToken = null;
+          WidgetFeed.loadMore();
+        });
       }])
-})(window.angular);
+})(window.angular, window.buildfire);
