@@ -17,6 +17,10 @@
         var feedType = "Channel";
         $rootScope.showFeed = true;
 
+        /*declare the device width heights*/
+        $rootScope.deviceHeight = window.innerHeight;
+        $rootScope.deviceWidth = window.innerWidth;
+
         /*
          * Fetch user's data from datastore
          */
