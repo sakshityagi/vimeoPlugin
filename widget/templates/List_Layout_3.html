@@ -15,10 +15,8 @@
           infinite-scroll-disabled="WidgetFeed.busy">
       <div ng-repeat="video in WidgetFeed.videos" trigger-ng-repeat-render>
         <div class="plugin-banner clearfix">
-          <div class="plugin-slide text-center">
-            <iframe id="player" manage-aspect-ratio
-                    ng-src="{{video.uri | returnVimeoUrl}}"
-                    frameborder="0"></iframe>
+          <div class="plugin-slide text-center" data-ng-attr-load-iframe="{{video.uri | returnVimeoUrl}}">
+            <img src="../../../styles/media/holder-16x9.gif">
           </div>
         </div>
         <div class="padded text-left">
