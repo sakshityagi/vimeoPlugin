@@ -29,8 +29,8 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
     _mockData = {
       "content": {
         "carouselImages": [],
-        "description": '<p>&nbsp;<br></p>',
-        "rssUrl": "",
+        "description": '',
+        "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
         "type": "",
         "feedID": null,
         "videoID": null
@@ -104,7 +104,7 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
       expect(ContentHome.validLinkFailure).toEqual(false);
     });
     it('it should pass if ContentHome.contentType is equal to "Single Video"', function () {
-      expect(ContentHome.contentType).toEqual("Single Video");
+      expect(ContentHome.contentType).toEqual("Channel Feed");
     });
     it('it should pass if ContentHome.failureMessage is equal to  "Error. Please check and try again"', function () {
       expect(ContentHome.failureMessage).toEqual("Error. Please check and try again");
@@ -138,7 +138,7 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
       ContentHome.clearData();
       $rootScope.$digest();
       expect(ContentHome.data.content.rssUrl).toEqual(null);
-      expect(ContentHome.data.content.type).toEqual(CONTENT_TYPE.SINGLE_VIDEO);
+      expect(ContentHome.data.content.type).toEqual(CONTENT_TYPE.CHANNEL_FEED);
       expect(ContentHome.data.content.videoID).toEqual(null);
       expect(ContentHome.data.content.playListID).toEqual(null);
     });

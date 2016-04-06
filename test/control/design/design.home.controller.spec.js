@@ -17,8 +17,8 @@ describe('Unit : vimeoPlugin design.home.controller.js', function () {
     _mockData = {
       "content": {
         "carouselImages": [],
-        "description": '<p>&nbsp;<br></p>',
-        "rssUrl": "",
+        "description": '',
+        "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
         "type": "",
         "feedID": null,
         "videoID": null
@@ -41,6 +41,7 @@ describe('Unit : vimeoPlugin design.home.controller.js', function () {
       TAG_NAMES: TAG_NAMES,
       CONTENT_TYPE: CONTENT_TYPE
     });
+    DesignHome.data = _mockData;
   });
 
   describe('Units: units should be Defined', function () {
