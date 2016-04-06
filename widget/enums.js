@@ -3,7 +3,8 @@
 (function (angular) {
   angular.module('vimeoPluginWidget')
     .constant('TAG_NAMES', {
-      VIMEO_INFO: 'VimeoInfo'
+      VIMEO_INFO: 'VimeoInfo',
+      DEFAULT_FEED_ID: 'pmg'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',

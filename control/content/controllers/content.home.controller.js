@@ -8,8 +8,8 @@
         var _data = {
           "content": {
             "carouselImages": [],
-            "description": '<p>&nbsp;<br></p>',
-            "rssUrl": "",
+            "description": '',
+            "rssUrl": TAG_NAMES.DEFAULT_FEED_URL,
             "type": "",
             "feedID": null,
             "videoID": null
@@ -21,12 +21,12 @@
           }
         };
         var ContentHome = this;
-        ContentHome.masterData = null;
+        ContentHome.masterData = angular.copy(_data);
         ContentHome.CONTENT_TYPE = CONTENT_TYPE;
         // ContentHome.data = angular.copy(_data);
         ContentHome.validLinkSuccess = false;
         ContentHome.validLinkFailure = false;
-        ContentHome.contentType = CONTENT_TYPE.SINGLE_VIDEO;
+        ContentHome.contentType = CONTENT_TYPE.CHANNEL_FEED;
         ContentHome.failureMessage = "Error. Please check and try again";
 
         ContentHome.descriptionWYSIWYGOptions = {
@@ -87,8 +87,9 @@
               if (Object.keys(result.data).length > 0) {
                 ContentHome.data = result.data;
               }
-              if (!ContentHome.data) {
-                ContentHome.data = angular.copy(_data);
+              if (result && !result.id) {
+                  ContentHome.data = angular.copy(_data);
+                  ContentHome.rssLink = ContentHome.data.content.rssUrl;
               } else {
                 if (ContentHome.data && ContentHome.data.content && ContentHome.data.content.type)
                   ContentHome.contentType = ContentHome.data.content.type;
@@ -340,7 +341,7 @@
         ContentHome.clearData = function () {
           if (!ContentHome.rssLink) {
             ContentHome.data.content.rssUrl = null;
-            ContentHome.data.content.type = CONTENT_TYPE.SINGLE_VIDEO;
+            ContentHome.data.content.type = CONTENT_TYPE.CHANNEL_FEED;
             ContentHome.data.content.videoID = null;
             ContentHome.data.content.playListID = null;
           }

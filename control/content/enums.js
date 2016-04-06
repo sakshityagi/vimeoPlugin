@@ -3,7 +3,8 @@
 (function (angular) {
   angular.module('vimeoPluginContent')
     .constant('TAG_NAMES', {
-      VIMEO_INFO: 'VimeoInfo'
+      VIMEO_INFO: 'VimeoInfo',
+      DEFAULT_FEED_URL: 'https://vimeo.com/channels/pmg'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',
