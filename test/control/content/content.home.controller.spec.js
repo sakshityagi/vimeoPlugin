@@ -39,7 +39,8 @@ describe('Unit : vimeoPlugin content.home.controller.js', function () {
         "itemListLayout": LAYOUTS.listLayouts[0].name,
         "itemListBgImage": "",
         "itemDetailsBgImage": ""
-      }
+      },
+      "default": true
     };
   }));
 

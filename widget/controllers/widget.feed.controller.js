@@ -111,6 +111,7 @@
                 }
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
+              currentFeedId = WidgetFeed.data.content.feedID;
             }
 
             if (!WidgetFeed.data.content.rssUrl) {
