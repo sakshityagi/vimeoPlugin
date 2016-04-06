@@ -36,6 +36,9 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if(!result.id) {
+                  WidgetFeed.data.content.feedID = TAG_NAMES.DEFAULT_FEED_ID;
+              }
               if (WidgetFeed.data.content.type)
                 $rootScope.contentType = WidgetFeed.data.content.type;
               currentListLayout = WidgetFeed.data.design.itemListLayout;
