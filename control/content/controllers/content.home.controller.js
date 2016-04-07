@@ -154,8 +154,8 @@
                       newObj.content.rssUrl = '';
                       ContentHome.data.content.rssUrl = '';
                       ContentHome.rssLink = ContentHome.data.content.rssUrl;
-                      delete newObj.default;
                   }
+                  delete newObj.default;
               }
               saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.VIMEO_INFO);
             }, 500);
