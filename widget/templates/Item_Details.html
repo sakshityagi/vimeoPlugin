@@ -2,10 +2,9 @@
   <div ng-if="WidgetSingle.video.uri" class="media-center-plugin layout1">
     <div class="media-center-banner clearfix border-bottom-grey">
       <div class="plugin-slider text-center">
-        <div class="plugin-slide">
-          <iframe id="player" width="100%"
-                  ng-src="{{WidgetSingle.video.uri | returnVimeoUrl}}"
-                  frameborder="0" manage-aspect-ratio></iframe>
+        <div class="plugin-slide"
+             data-ng-attr-load-iframe="{{WidgetSingle.video.uri | returnVimeoUrl}}">
+          <img src="../../../styles/media/holder-16x9.gif">
         </div>
       </div>
     </div>
