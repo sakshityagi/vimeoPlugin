@@ -140,8 +140,10 @@
                     buildfire.navigation._goBackOne();
                 }
             };
-            buildfire.device.onAppBackgrounded(function () {
-                callVimeoPlayer('vimeoPlayer');
-            });
+            if(buildfire.device) {
+                buildfire.device.onAppBackgrounded(function () {
+                    callVimeoPlayer('vimeoPlayer');
+                });
+            }
         }]);
 })(window.angular, window.buildfire);
