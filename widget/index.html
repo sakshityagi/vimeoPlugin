@@ -1,46 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="vimeoPluginWidget" >
+<html lang="en" ng-app="vimeoPluginWidget">
 <head>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="../../../styles/bootstrap.css">
-  <link rel="stylesheet" href="../../../styles/siteIcons.css">
-  <link rel="stylesheet" href="../../../styles/helper.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../../styles/bootstrap.css">
+    <link rel="stylesheet" href="../../../styles/siteIcons.css">
+    <link rel="stylesheet" href="../../../styles/helper.css">
 
-  <!--Angular, jQuery & Owl Carousel -->
-  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-  <script src="../../../scripts/buildfire.js"></script>
-  <script type="text/javascript" src="../../../scripts/owlCarousel/owlCarousel.js"></script>
-  <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
-  <script src="../../../scripts/angular/angular.min.js"></script>
-  <script src="../../../scripts/angular/angular-route.min.js"></script>
-  <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+    <!--Angular, jQuery & Owl Carousel -->
+    <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../scripts/buildfire.js"></script>
+    <script type="text/javascript" src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+    <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+    <script src="../../../scripts/angular/angular.min.js"></script>
+    <script src="../../../scripts/angular/angular-route.min.js"></script>
+    <link rel="stylesheet" href="../../../scripts/owlCarousel/owlCarousel.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-  <!-- Meta -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- App -->
-  <script src="assets/js/ng-infinite-scroll.custom.js" type="application/javascript"></script>
-  <script src="app.js" type="application/javascript"></script>
-  <script src="enums.js" type="application/javascript"></script>
-  <script src="app.services.js" type="application/javascript"></script>
-  <script src="controllers/widget.feed.controller.js" type="application/javascript"></script>
-  <script src="controllers/widget.single.controller.js" type="application/javascript"></script>
-  <script src="../../../scripts/angular/angular-animate.min.js"></script>
-  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
+    <!-- App -->
+    <script src="assets/js/ng-infinite-scroll.custom.js" type="application/javascript"></script>
+    <script src="app.js" type="application/javascript"></script>
+    <script src="enums.js" type="application/javascript"></script>
+    <script src="app.services.js" type="application/javascript"></script>
+    <script src="controllers/widget.feed.controller.js" type="application/javascript"></script>
+    <script src="controllers/widget.single.controller.js" type="application/javascript"></script>
+    <script src="../../../scripts/angular/angular-animate.min.js"></script>
+    <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
 </head>
 <body class="body-scroll">
 <div class="main_view">
-  <div class="slide content infinite-scroll-parent">
-    <div ng-controller="WidgetFeedCtrl as WidgetFeed">
-      <div ng-if="WidgetFeed.data.design.itemListLayout"
-           ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
-      </div>
+    <div class="slide content infinite-scroll-parent">
+        <div ng-controller="WidgetFeedCtrl as WidgetFeed">
+            <div ng-if="WidgetFeed.data.design.itemListLayout"
+                 ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
+            </div>
+        </div>
     </div>
-  </div>
-  <div ng-view="" class="slide content" ng-hide="showFeed"></div>
+    <div ng-view="" class="slide content" ng-hide="showFeed"></div>
 </div>
 </body>
+<script>
+    function callVimeoPlayer(iframeId) {
+        var iframe = $('#' + iframeId)[0];
+        var url = 'https://player.vimeo.com';
+     /*   if (iframe.src.indexOf('https') == 0)
+            url = 'https://player.vimeo.com';*/
+        iframe.contentWindow.postMessage({method: 'pause'}, url);
+    }
+</script>
 </html>
