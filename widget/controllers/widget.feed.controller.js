@@ -36,6 +36,9 @@
               if (!WidgetFeed.data.design.itemListLayout) {
                 WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if (WidgetFeed.data.design.itemListBgImage) {
+                $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+              }
               if(!result.id) {
                   WidgetFeed.data.content.feedID = TAG_NAMES.DEFAULT_FEED_ID;
               }
@@ -98,6 +101,11 @@
               $rootScope.contentType = WidgetFeed.data.content.type;
             if (!WidgetFeed.data.design.itemListLayout) {
               WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+            }
+            if (WidgetFeed.data.design.itemListBgImage) {
+              $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+            }  else{
+              $rootScope.backgroundListImage="";
             }
             if (WidgetFeed.data.design && WidgetFeed.data.content) {
               if ((currentListLayout != WidgetFeed.data.design.itemListLayout) && view && WidgetFeed.data.content.carouselImages) {
@@ -189,6 +197,12 @@
           }
           if (!view) {
             view = new Buildfire.components.carousel.view("#carousel", []);
+          }
+          if (WidgetFeed.data.design.itemListBgImage) {
+            $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+          }
+          else{
+            $rootScope.backgroundListImage="";
           }
           if (view && WidgetFeed.data.content.carouselImages) {
             view.loadItems(WidgetFeed.data.content.carouselImages);
