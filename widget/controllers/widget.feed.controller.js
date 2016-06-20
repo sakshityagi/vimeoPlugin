@@ -149,7 +149,7 @@
               getFeedVideos(WidgetFeed.data.content.feedID);
             }
 
-            if (WidgetFeed.data.content && WidgetFeed.data.content.feedID && (WidgetFeed.data.content.feedID !== WidgetFeed.currentFeedId)) {
+            if (WidgetFeed.data.content && WidgetFeed.data.content.feedID) {
               WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
