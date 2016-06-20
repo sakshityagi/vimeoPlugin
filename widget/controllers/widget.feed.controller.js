@@ -13,7 +13,7 @@
         WidgetFeed.busy = false;
         WidgetFeed.nextPageToken = 1;
         var currentListLayout = null;
-        var currentFeedId = null;
+        WidgetFeed.currentFeedId = null;
         var feedType = "Channel";
         $rootScope.showFeed = true;
 
@@ -24,39 +24,57 @@
         /*
          * Fetch user's data from datastore
          */
-        var init = function () {
-          var success = function (result) {
-              WidgetFeed.data = result.data;
-              if (!WidgetFeed.data.content)
-                WidgetFeed.data.content = {};
-              if (!WidgetFeed.data.design)
-                WidgetFeed.data.design = {};
-              if (!WidgetFeed.data.content)
-                WidgetFeed.data.content = {};
-              if (!WidgetFeed.data.design.itemListLayout) {
-                WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
-              }
-              if (WidgetFeed.data.design.itemListBgImage) {
-                $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
-              }
-              if(!result.id) {
+        var initData = function(isRefresh) {
+            var success = function (result) {
+                WidgetFeed.data = result.data;
+                if (!WidgetFeed.data.content)
+                  WidgetFeed.data.content = {};
+                if (!WidgetFeed.data.design)
+                  WidgetFeed.data.design = {};
+                if (!WidgetFeed.data.content)
+                  WidgetFeed.data.content = {};
+                if (!WidgetFeed.data.design.itemListLayout) {
+                  WidgetFeed.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
+                }
+                if (WidgetFeed.data.design.itemListBgImage) {
+                  $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
+                }
+                if (!result.id) {
                   WidgetFeed.data.content.feedID = TAG_NAMES.DEFAULT_FEED_ID;
-              }
-              if (WidgetFeed.data.content.type)
-                $rootScope.contentType = WidgetFeed.data.content.type;
-              currentListLayout = WidgetFeed.data.design.itemListLayout;
-              if (WidgetFeed.data.content && !currentFeedId) {
-                currentFeedId = WidgetFeed.data.content.feedID;
-              }
-            }
-            , error = function (err) {
-              if (err && err.code !== STATUS_CODE.NOT_FOUND) {
-                console.error('Error while getting data', err);
-              }
-            };
-          DataStore.get(TAG_NAMES.VIMEO_INFO).then(success, error);
-        };
+                }
+                if (WidgetFeed.data.content.type)
+                  $rootScope.contentType = WidgetFeed.data.content.type;
+                currentListLayout = WidgetFeed.data.design.itemListLayout;
+                if (WidgetFeed.data.content) {
+                  WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
+                }
+                if (isRefresh) {
+                  if (currentListLayout != WidgetFeed.data.design.itemListLayout && view && WidgetFeed.data.content.carouselImages) {
+                    if (WidgetFeed.data.content.carouselImages.length)
+                      view._destroySlider();
+                    view = null;
+                  }
+                  else {
+                    if (view) {
+                      view.loadItems(WidgetFeed.data.content.carouselImages);
+                    }
+                  }
 
+                  WidgetFeed.loadMore();
+                }
+                if (!$scope.$$phase)
+                  $scope.$digest();
+              }
+              , error = function (err) {
+                if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+                  console.error('Error while getting data', err);
+                }
+              };
+            DataStore.get(TAG_NAMES.VIMEO_INFO).then(success, error);
+          };
+        var init = function () {
+          initData(false);
+        };
         init();
         $rootScope.$on("Carousel:LOADED", function () {
           if (!view) {
@@ -70,7 +88,7 @@
         });
 
         var getFeedVideos = function (_feedId) {
-          Buildfire.spinner.show();
+         Buildfire.spinner.show();
           var success = function (result) {
               Buildfire.spinner.hide();
               WidgetFeed.videos = WidgetFeed.videos.length ? WidgetFeed.videos.concat(result.data.data) : result.data.data;
@@ -119,7 +137,7 @@
                 }
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              currentFeedId = WidgetFeed.data.content.feedID;
+              WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
             }
 
             if (!WidgetFeed.data.content.rssUrl) {
@@ -127,12 +145,12 @@
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = 1;
             } else if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.feedID) {
-              currentFeedId = WidgetFeed.data.content.feedID;
+              WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
               getFeedVideos(WidgetFeed.data.content.feedID);
             }
 
-            if (WidgetFeed.data.content && WidgetFeed.data.content.feedID && (WidgetFeed.data.content.feedID !== currentFeedId)) {
-              currentFeedId = WidgetFeed.data.content.feedID;
+            if (WidgetFeed.data.content && WidgetFeed.data.content.feedID && (WidgetFeed.data.content.feedID !== WidgetFeed.currentFeedId)) {
+              WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
               WidgetFeed.videos = [];
               WidgetFeed.busy = false;
               WidgetFeed.nextPageToken = null;
@@ -146,8 +164,8 @@
         WidgetFeed.loadMore = function () {
           if (WidgetFeed.busy) return;
           WidgetFeed.busy = true;
-          if (currentFeedId && currentFeedId !== '1') {
-            getFeedVideos(currentFeedId);
+          if (WidgetFeed.currentFeedId && WidgetFeed.currentFeedId !== '1') {
+            getFeedVideos(WidgetFeed.currentFeedId);
           }
           else {
             if (WidgetFeed.data.content.videoID)
@@ -192,7 +210,7 @@
           if (!WidgetFeed.data.content)
             WidgetFeed.data.content = {};
           if (!(WidgetFeed.videos.length > 0) && WidgetFeed.data.content.feedID) {
-            currentFeedId = WidgetFeed.data.content.feedID;
+            WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
             getFeedVideos(WidgetFeed.data.content.feedID);
           }
           if (!view) {
@@ -213,7 +231,7 @@
             WidgetFeed.videos = [];
             WidgetFeed.busy = false;
             WidgetFeed.nextPageToken = null;
-            WidgetFeed.loadMore();
+            initData(true);
           });
         });
 
@@ -225,7 +243,7 @@
           WidgetFeed.videos = [];
           WidgetFeed.busy = false;
           WidgetFeed.nextPageToken = null;
-          WidgetFeed.loadMore();
+          initData(true);
         });
       }])
 })(window.angular, window.buildfire);
