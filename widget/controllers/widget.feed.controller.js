@@ -111,7 +111,6 @@
                 }
               }
               currentListLayout = WidgetFeed.data.design.itemListLayout;
-              currentFeedId = WidgetFeed.data.content.feedID;
             }
 
             if (!WidgetFeed.data.content.rssUrl) {
@@ -131,6 +130,8 @@
               WidgetFeed.loadMore();
             } else if (WidgetFeed.data.content && WidgetFeed.data.content.videoID)
               Location.goTo("#/video/" + WidgetFeed.data.content.videoID);
+
+            currentFeedId = WidgetFeed.data.content.feedID;
           }
         };
         DataStore.onUpdate().then(null, null, onUpdateCallback);
