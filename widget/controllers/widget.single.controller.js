@@ -35,6 +35,9 @@
               if (!WidgetSingle.data.design.itemListLayout) {
                 WidgetSingle.data.design.itemListLayout = LAYOUTS.listLayouts[0].name;
               }
+              if (WidgetSingle.data.design.itemDetailsBgImage) {
+                $rootScope.backgroundImage = WidgetSingle.data.design.itemDetailsBgImage;
+              }
               currentItemListLayout = WidgetSingle.data.design.itemListLayout;
               currentFeedID = WidgetSingle.data.content.feedID;
             }
@@ -77,6 +80,11 @@
               $rootScope.contentType = WidgetSingle.data.content.type;
             if (!WidgetSingle.data.design)
               WidgetSingle.data.design = {};
+            if (WidgetSingle.data.design.itemDetailsBgImage) {
+              $rootScope.backgroundImage = WidgetSingle.data.design.itemDetailsBgImage;
+            }else{
+              $rootScope.backgroundImage="";
+            }
             if (!WidgetSingle.data.content.rssUrl) {
               $routeParams.videoId = '';
               WidgetSingle.video = null;

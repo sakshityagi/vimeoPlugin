@@ -9,6 +9,7 @@
 
     <!--Angular, jQuery & Owl Carousel -->
     <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../scripts/smartcrop.js"></script>
     <script src="../../../scripts/buildfire.js"></script>
     <script type="text/javascript" src="../../../scripts/owlCarousel/owlCarousel.js"></script>
     <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
@@ -22,7 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- App -->
-    <script src="assets/js/ng-infinite-scroll.custom.js" type="application/javascript"></script>
+    <script src="../../../../sdk/scripts/angular/ng-infinite-scroll.custom.js" type="application/javascript"></script>
     <script src="app.js" type="application/javascript"></script>
     <script src="enums.js" type="application/javascript"></script>
     <script src="app.services.js" type="application/javascript"></script>
@@ -33,14 +34,14 @@
 </head>
 <body class="body-scroll">
 <div class="main_view">
-    <div class="slide content infinite-scroll-parent">
+    <div class="slide content infinite-scroll-parent" data-back-img="{{backgroundListImage}}">
         <div ng-controller="WidgetFeedCtrl as WidgetFeed">
             <div ng-if="WidgetFeed.data.design.itemListLayout"
                  ng-include="'templates/' + WidgetFeed.data.design.itemListLayout + '.html'">
             </div>
         </div>
     </div>
-    <div ng-view="" class="slide content" ng-hide="showFeed"></div>
+    <div ng-view="" class="slide content" ng-hide="showFeed" data-back-img="{{backgroundImage}}"></div>
 </div>
 </body>
 <script>
