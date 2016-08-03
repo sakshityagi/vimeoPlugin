@@ -215,18 +215,27 @@
             WidgetFeed.currentFeedId = WidgetFeed.data.content.feedID;
             getFeedVideos(WidgetFeed.data.content.feedID);
           }
-          if (!view) {
-            view = new Buildfire.components.carousel.view("#carousel", []);
-          }
+          
           if (WidgetFeed.data.design.itemListBgImage) {
             $rootScope.backgroundListImage = WidgetFeed.data.design.itemListBgImage;
           }
           else{
             $rootScope.backgroundListImage="";
           }
-          if (view && WidgetFeed.data.content.carouselImages) {
-            view.loadItems(WidgetFeed.data.content.carouselImages);
+
+          if (currentListLayout && (currentListLayout != WidgetFeed.data.design.itemListLayout) && view && WidgetFeed.data.content.carouselImages) {
+            if (WidgetFeed.data.content.carouselImages.length)
+              view._destroySlider();
+            view = null;
           }
+          else {
+            if (view) {
+              view.loadItems(WidgetFeed.data.content.carouselImages);
+            }
+          }
+
+          currentListLayout = WidgetFeed.data.design.itemListLayout;
+          
           DataStore.onUpdate().then(null, null, onUpdateCallback);
 
           buildfire.datastore.onRefresh(function () {
